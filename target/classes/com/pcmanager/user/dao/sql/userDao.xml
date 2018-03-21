@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserDao">
+		<resultMap type="UserVO" id="UserVO">
+		<id column="ID" property="id"/>
+		<result column="NAME" property="name"/>
+		<result column="PASSWORD" property="password"/>
+		<result column="NICKNAME" property="nickname"/>
+		<result column="PHONENUM" property="phoneNum"/>
+		<result column="ADDR" property="addr"/>
+	</resultMap>
+	<insert id="insertUser" parameterType="UserVO">
+		INSERT	INTO MEMBER (
+			ID
+			, NAME
+			, PASSWORD
+			, NICKNAME
+			, PHONENUM
+			, ADDR
+		)
+		VALUES (
+			MEMBER_ID_SEQ.NEXTVAL
+			, #{name}
+			, #{password}
+			, #{nickname}
+			, #{phoneNum}
+			, #{addr}
+		)
+	</insert>
+	
+	<select id="selectOne" parameterType="UserVO" resultMap="UserVO">
+		SELECT ID
+				,PASSWORD
+       			,NAME
+       			,ADDR
+       			,PHONENUM
+       			,NICKNAME
+		FROM MEMBER 
+		WHERE  NAME= #{name}
+	</select>
+	
+</mapper>
