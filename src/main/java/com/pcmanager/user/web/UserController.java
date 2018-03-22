@@ -35,7 +35,6 @@ public class UserController {
 		HttpSession session = request.getSession();
 		ModelAndView view = new ModelAndView();
 
-
 		// 넘어오는게 없으면 null(누락 상태) or 아이디는 잇으나 값이 없는 상태
 //		if (userVO.getId() == null || userVO.getId().length() == 0) {
 //			session.setAttribute("status", "emptyId");
@@ -48,8 +47,7 @@ public class UserController {
 //			return new ModelAndView("redirect:/");
 //		}
 		
-		UserVO userCheck =(UserVO)userService.selectOne(userVO);
-		System.out.println(userCheck.getName());
+		UserVO userCheck =(UserVO)userService.readUser(userVO);
 		if(userCheck == null) {
 			System.out.println("아이디체크 실패");
 			return new ModelAndView("redirect:/");
@@ -90,6 +88,7 @@ public class UserController {
 	public String viewLogoutPage(HttpSession session) {
 		session.invalidate();
 		System.out.println("로그아웃");
+		
 		return "main/index";
 	}
 	
@@ -101,8 +100,6 @@ public class UserController {
 		if( user == null ) {
 			return new ModelAndView("error/404");
 		}
-		
-		
 		ModelAndView view= new ModelAndView();
 		view.setViewName("main/signup");
 		view.addObject("userVO", user);
