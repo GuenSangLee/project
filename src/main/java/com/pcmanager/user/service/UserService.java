@@ -9,5 +9,5 @@ public interface UserService {
 	public boolean createUser(UserVO userVO);
 	public int removeData(int id);
 	public UserVO readUser(UserVO userVO);
-	public int updateData(UserVO userVO);
+	public boolean updateData(UserVO userVO);
 }

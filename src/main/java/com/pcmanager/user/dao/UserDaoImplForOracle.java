@@ -31,8 +31,7 @@ public class UserDaoImplForOracle  extends SqlSessionDaoSupport implements UserD
 
 	@Override
 	public int updateData(UserVO userVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return getSqlSession().update("UserDao.updateData", userVO);
 	}
 
 }

@@ -19,8 +19,8 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		String contextPath = request.getContextPath();
 		
 		if ( request.getSession().getAttribute(Member.USER) == null ) {
-			logger.info(request.getRequestURI() + "안돼, 돌아가.");
-			response.sendRedirect(contextPath + "/login");
+			logger.info(request.getRequestURI() + "로그인이 필요한 페이지 입니다.");
+			response.sendRedirect(contextPath + "/");
 			// return false = 로그인 x 로그인 페이지로 가라
 			return false;
 		}

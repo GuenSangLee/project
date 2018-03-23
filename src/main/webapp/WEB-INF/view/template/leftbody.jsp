@@ -22,19 +22,21 @@
 		<c:if test="$(not empty sessionScope.__USER__)">
 			$("#signForm").show();
 			$("#loginForm").hide();
+			
+			
 		</c:if>
 	
 	});
 </script>
 </head>
 <body>
-<div id="#left" style=" margin:0px; display: inline-block; height: 700px; width:200px; border: 1px solid; float:left; padding:3px;">
+<div id="left" style=" margin:0px; display: inline-block; height: 700px; width:200px; border: 1px solid; float:left; padding:3px;">
 			<div style="margin:5px; border:1px solid; height:150px;">
 				<c:if test="${empty sessionScope.__USER__}">
 				<form:form modelAttribute="writeForm">
 					<div style=" display:inline-block;">
 						<div><input type="text" id="name" name="name" placeholder="아이디" style="width:130px;"/> </div>
-						<div><input type="text" id="password" name="password" placeholder="비밀번호" style="width:130px;"/> </div>
+						<div><input type="password" id="password" name="password" placeholder="비밀번호" style="width:130px;"/> </div>
 					
 					</div> 
 					<input class="button" type="button" id="sign_in" value="로그인" style="display:inline-block; width: 50px; height: 30px;" />

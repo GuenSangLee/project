@@ -7,31 +7,32 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/css/common.css"/>"/>
 <script src="<c:url value="/static/js/jquery-3.3.1.min.js"/>" type="text/javascript"> </script>
 <script type="text/javascript">
 	$().ready(function(){	
 	});
 </script>
 </head>
-<body style="margin: 2px; text-align:center;">
-	<div id="#wrapper" style="display: inline-block;  magin:0px; padding:0px; width:1020px;">
+<body>
+	<div id="wrapper">
 		<jsp:include page="/WEB-INF/view/template/leftbody.jsp" />
 			
 		</div>
-		<div id="#right" style="margin: 0px; width:800px; height:705px; display:inline-block; border: 1px solid; background-color: #dedede; text-align:top;" >
-			<div id="#top" style= "margin: 5px auto; width:700px; height:50px; border: 1px solid; background-color:#fefefe; ">
+		<div id="right" >
+			<div id="top">
 				<p style="margin:0px; padding:0px; font-size: 20pt;"> PC 타임</p>
 			</div>
-				<div id="#gameRank" style= "margin: 5px auto; width:700px; height:30px; border: 1px solid; background-color:#fefefe; text-align:left; vertical-align:top;">
+				<div  class="mainList" id="gameRank">
 					<div style="display:inline-block">게임순위</div>
 					<div style="display:inline-block">1.ㅁㄴㅇ  2.ㅇㄴㅁ  3.ㅁㄴㅇㄹ  4.ㅁㄴㅇㄹ 5.ㅁㄴㅇㄹㄷ</div>
 				</div>
 
-				<div id="#gameRank"style= "margin: 5px auto; width:700px; height:30px; border: 1px solid; background-color:#fefefe;">
+				<div class="mainList" id="gameRank">
 					<div style="text-align:left">게임 소식</div>
 				</div>
 
-				<div id="#gameRank"style= "margin: 5px auto; width:700px; height:250px; border: 1px solid; background-color:#fefefe;">
+				<div class="mainList" id="gameRank">
 					<table>
 						<tr>
 							<th>
@@ -55,11 +56,11 @@
 			 		</table>
 				</div>
 
-				<div id="#gameRank"style= "margin: 5px auto; width:700px; height:30px; border: 1px solid; background-color:#fefefe;">
+				<div id="gameRank"style= "margin: 5px auto; width:700px; height:30px; border: 1px solid; background-color:#fefefe;">
 					<div style="text-align:left">PC방 리뷰</div>
 				</div>
 
-				<div id="#gameRank"style= "margin: 5px auto; width:700px; height:250px; border: 1px solid; background-color:#fefefe;">
+				<div id="gameRank"style= "margin: 5px auto; width:700px; height:250px; border: 1px solid; background-color:#fefefe;">
 					<table>
 							<tr>
 								<th>

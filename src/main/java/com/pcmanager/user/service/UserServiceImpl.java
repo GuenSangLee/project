@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int updateData(UserVO userVO) {
-		return userDao.updateData(userVO);
+	public boolean updateData(UserVO userVO) {
+		return userDao.updateData(userVO) > 0;
 	}
 
 }

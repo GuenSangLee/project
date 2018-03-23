@@ -1,5 +1,6 @@
 package com.pcmanager.user.web;
 
+import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	
 	// 로그인을 했다는 상태정보를 가져와서 했다면 리스트를 보여주고 아니면 로그인페이지로 돌아간다.
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	public ModelAndView viewLoginPage(@ModelAttribute("writeForm") @Valid UserVO userVO, Errors errors,
@@ -108,6 +110,53 @@ public class UserController {
 		return view;
 	}
 	
-	
-
+	@RequestMapping(value="/modify/{id}", method=RequestMethod.POST)
+	public String doModifyPage(@PathVariable int id, HttpSession session, HttpServletRequest request,  @ModelAttribute("writeForm") @Valid UserVO userVO, Errors errors) {
+		UserVO changeVO= (UserVO) session.getAttribute(Member.USER);
+		System.out.println(changeVO +"!!!!!!!!!!!!!!!!!");
+		UserVO originalVO= userService.readUser(userVO);
+		System.out.println(originalVO +"!!!!!!!!!!!!!!!!!");
+		
+		if(changeVO.getId() != originalVO.getId()) {
+			return "error/404";
+		}
+		
+		if( errors.hasErrors()) {
+			return "redirect:/modify/"+id;
+		}
+		UserVO checkUser= new UserVO();
+		checkUser.setId(originalVO.getId());
+		checkUser.setName(originalVO.getName());
+		
+		//변경할게 있는지.
+		boolean isModify= false;
+		
+//		2. 제목 변경확인
+		if(!originalVO.getPassword().equals(changeVO.getPassword())) {
+			checkUser.setPassword(changeVO.getPassword());
+			isModify= true;
+		}
+//		3.내용체크
+		if(!originalVO.getAddr().equals(changeVO.getAddr())) {
+			checkUser.setAddr(changeVO.getAddr());
+			isModify= true;
+		}
+//		4-2
+		if(originalVO.getNickname().equals(changeVO.getNickname())) {
+			checkUser.setNickname(changeVO.getNickname());
+		}else {
+		}
+		
+		
+//		변경여부 체크.
+		if(isModify) {
+			if(userService.updateData(checkUser)) {
+				//업데이트 성공
+				return "redirect:/";
+			}
+		}
+		
+		return "";
+		
+	}
 }

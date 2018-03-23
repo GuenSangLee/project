@@ -49,9 +49,9 @@
 		<bean id="reviewBoardService"
 			class="com.pcmanager.reviewBoard.service.ReviewBoardServiceImpl">
 			<property name="reviewBoardDao" ref="reviewBoardDao"></property>
-			</bean>
+		</bean>
 			
-			<bean id="reviewBoardDao" class="com.pcmanager.reviewBoard.dao.ReviewBoardDaoImpl"></bean>
+		<bean id="reviewBoardDao" class="com.pcmanager.reviewBoard.dao.ReviewBoardDaoImpl"></bean>
 		
 		
 

@@ -41,4 +41,24 @@
 		WHERE  NAME= #{name}
 	</select>
 	
+	<update id="updateData" parameterType="UserVO">
+		UPDATE	MEMBER
+		SET		<if test= "name != null and title != ''">
+				NAME= #{name}
+				</if>
+				<if test= "password != null and title != ''">
+				,PASSWORD= #{password}
+				</if>
+				<if test= "nickname != null and title != ''">
+				,NICKNAME= #{nickname}
+				</if>
+				<if test= "phoneNum != null and title != ''">
+				,PHONENUM= #{phoneNum}
+				</if>
+				<if test= "addr != null and title != ''">
+				,ADDR= #{addr}
+				</if>
+		WHERE	ID= #{id}
+	</update>
+	
 </mapper>
