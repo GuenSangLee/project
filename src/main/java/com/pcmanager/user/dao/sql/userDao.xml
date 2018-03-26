@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserDao">
-		<resultMap type="UserVO" id="UserVO">
+		<resultMap type="UserVO" id="UserVOMap">
 		<id column="ID" property="id"/>
 		<result column="NAME" property="name"/>
 		<result column="PASSWORD" property="password"/>
@@ -11,6 +11,7 @@
 		<result column="PHONENUM" property="phoneNum"/>
 		<result column="ADDR" property="addr"/>
 	</resultMap>
+	
 	<insert id="insertUser" parameterType="UserVO">
 		INSERT	INTO MEMBER (
 			ID
@@ -30,32 +31,33 @@
 		)
 	</insert>
 	
-	<select id="selectOne" parameterType="UserVO" resultMap="UserVO">
-		SELECT ID
-				,PASSWORD
-       			,NAME
-       			,ADDR
-       			,PHONENUM
-       			,NICKNAME
-		FROM MEMBER 
-		WHERE  NAME= #{name}
+	<select id="selectOne" parameterType="string" resultType="UserVO">
+		SELECT	M.ID
+				,M.PASSWORD
+       			,M.NAME
+       			,M.ADDR
+       			,M.PHONENUM
+       			,M.NICKNAME
+		FROM	MEMBER M
+		WHERE	M.NAME= #{name}
 	</select>
+	
 	
 	<update id="updateData" parameterType="UserVO">
 		UPDATE	MEMBER
-		SET		<if test= "name != null and title != ''">
+		SET		<if test= "name != null and name != ''">
 				NAME= #{name}
 				</if>
-				<if test= "password != null and title != ''">
+				<if test= "password != null and password != ''">
 				,PASSWORD= #{password}
 				</if>
-				<if test= "nickname != null and title != ''">
+				<if test= "nickname != null and nickname != ''">
 				,NICKNAME= #{nickname}
 				</if>
-				<if test= "phoneNum != null and title != ''">
+				<if test= "phoneNum != null and phoneNum != ''">
 				,PHONENUM= #{phoneNum}
 				</if>
-				<if test= "addr != null and title != ''">
+				<if test= "addr != null and addr != ''">
 				,ADDR= #{addr}
 				</if>
 		WHERE	ID= #{id}

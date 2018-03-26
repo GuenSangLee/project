@@ -21,7 +21,7 @@
 		</div>
 		<div id="right" >
 			<div id="top">
-				<p style="margin:0px; padding:0px; font-size: 20pt;"> PC 타임</p>
+				<p> PC 타임</p>
 			</div>
 				<div  class="mainList" id="gameRank">
 					<div style="display:inline-block">게임순위</div>

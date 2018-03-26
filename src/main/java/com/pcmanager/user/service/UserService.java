@@ -8,6 +8,6 @@ public interface UserService {
 	public List<UserVO> selectAll();
 	public boolean createUser(UserVO userVO);
 	public int removeData(int id);
-	public UserVO readUser(UserVO userVO);
+	public UserVO readUser(String name);
 	public boolean updateData(UserVO userVO);
 }

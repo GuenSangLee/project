@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserVO readUser(UserVO userVO) {
-		return userDao.selectOne(userVO);
+	public UserVO readUser(String name) {
+		return userDao.selectOne(name);
 	}
 
 	@Override

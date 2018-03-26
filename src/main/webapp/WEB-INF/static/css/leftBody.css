@@ -1,0 +1,8 @@
+#leftBody{
+	margin:0px; 
+	display: inline-block; 
+	height: 700px; 
+	width:200px; 
+	border: 1px solid; 
+	float:left; padding:3px;
+}

@@ -8,6 +8,6 @@ public interface UserDao {
 	public List<UserVO> selectAll();
 	public int insertUser(UserVO userVO);
 	public int removeData(int id);
-	public UserVO selectOne(UserVO userVO);
+	public UserVO selectOne(String name);
 	public int updateData(UserVO userVO);
  }

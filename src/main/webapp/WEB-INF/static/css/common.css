@@ -4,6 +4,11 @@ p. div, a, li, span, td, i, u, input, textarea, b, body{
 	color: #333;
 	font-family:"맑은 고딕", "맑은고딕";
 }
+p{
+	margin:0px; 
+	padding:0px; 
+	font-size: 20pt;
+}
 
 body{
 	margin:0 auto;
