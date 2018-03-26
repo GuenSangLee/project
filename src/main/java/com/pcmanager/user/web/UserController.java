@@ -54,7 +54,7 @@ public class UserController {
 			return new ModelAndView("redirect:/");
 		}else {
 			if (userCheck.getPassword().equals(userVO.getPassword())) {
-				session.setAttribute(Member.USER, userVO);
+				session.setAttribute(Member.USER, userCheck);
 				System.out.println("로그인");
 				return new ModelAndView("redirect:/");		
 			}
@@ -115,6 +115,7 @@ public class UserController {
 	@RequestMapping(value="/modify/{name}", method=RequestMethod.POST)
 	public String doModifyPage(@PathVariable String name, HttpSession session, HttpServletRequest request,  @ModelAttribute("writeForm") @Valid UserVO userVO, Errors errors) {
 		System.out.println("POST 시작");
+		System.out.println(session.getAttribute(Member.USER)+" !!!!!!!!!!!!!!!!!");
 		UserVO changeVO= (UserVO) session.getAttribute(Member.USER);
 		System.out.println(changeVO.getId() +" !!!!!!!!!!!!!!!!!");
 		
@@ -125,30 +126,32 @@ public class UserController {
 			return "error/404";
 		}
 		
-		if( errors.hasErrors()) {
-			return "redirect:/modify/";
-		}
+//		if( errors.hasErrors()) {
+//			return "redirect:/modify/";
+//		}
 		UserVO checkUser= new UserVO();
 		checkUser.setId(originalVO.getId());
 		checkUser.setName(originalVO.getName());
-		
-		//변경할게 있는지.
+//		변경할게 있는지.
 		boolean isModify= false;
 		
 //		2. 제목 변경확인
-		if(!originalVO.getPassword().equals(changeVO.getPassword())) {
-			checkUser.setPassword(changeVO.getPassword());
+		if(!originalVO.getPassword().equals(userVO.getPassword())) {
+			checkUser.setPassword(userVO.getPassword());
+			isModify= true;
+		}
+		if(!originalVO.getPhoneNum().equals(userVO.getPhoneNum())) {
+			checkUser.setPhoneNum(userVO.getPhoneNum());
 			isModify= true;
 		}
 //		3.내용체크
-		if(!originalVO.getAddr().equals(changeVO.getAddr())) {
-			checkUser.setAddr(changeVO.getAddr());
+		if(!originalVO.getAddr().equals(userVO.getAddr())) {
+			checkUser.setAddr(userVO.getAddr());
 			isModify= true;
 		}
 //		4-2
-		if(originalVO.getNickname().equals(changeVO.getNickname())) {
-			checkUser.setNickname(changeVO.getNickname());
-		}else {
+		if(!originalVO.getNickname().equals(userVO.getNickname())) {
+			checkUser.setNickname(userVO.getNickname());
 		}
 		
 		
@@ -160,7 +163,7 @@ public class UserController {
 			}
 		}
 		
-		return "";
+		return "redirect:/";
 		
 	}
 }
