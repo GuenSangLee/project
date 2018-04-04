@@ -6,6 +6,13 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<mvc:annotation-driven/>
+	<mvc:interceptors>
+		<mvc:interceptor>
+		<mvc:mapping path="/**/write" />
+		<bean id="loginInterceptor" class="com.pcmanager.interceptors.LoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	
 	
 	<mvc:resources location="/WEB-INF/static/" mapping="/static/**"/>

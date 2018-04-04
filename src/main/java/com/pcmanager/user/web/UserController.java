@@ -66,7 +66,7 @@ public class UserController {
 	// 회원가입
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String viewSignupPage() {
-		return "main/signup";
+		return "user/signup";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -105,7 +105,7 @@ public class UserController {
 			return new ModelAndView("error/404");
 		}
 		ModelAndView view= new ModelAndView();
-		view.setViewName("main/signup");
+		view.setViewName("user/signup");
 		view.addObject("userVO", userVO);
 		view.addObject("mode", "modify");
 		
@@ -165,5 +165,11 @@ public class UserController {
 		
 		return "redirect:/";
 		
+	}
+	
+	//login Interceptor에 걸리면
+	@RequestMapping("/need/login")
+	public String viewLogin() {
+		return "user/signin";
 	}
 }
