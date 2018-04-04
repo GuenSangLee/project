@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GameNewsBoardDao">
+	<resultMap type="GameNewsBoardVO" id="GameNewsBoardVOMap">
+		<id column="GAME_NEWS_ID" property="boardId"/>
+		<result column="TITLE" property="title"/>
+		<result column="BODY" property="body"/>
+		<result column="WRITE_DATE" property="writeDate"/>
+		<result column="VIEW_COUNT" property="viewCount"/>
+		<result column="USER_ID" property="userId"/>
+		<association property="userVO" javaType="UserVO">
+			<id column="M_ID" property="id"/>
+			<result column="ADDR" property="addr"/>
+			<result column="NICKNAME" property="nickname"/>
+			<result column="PHONE_NUM" property="phoneNum"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectTop5" resultMap="GameNewsBoardVOMap">
+		SELECT	ROWNUM
+				,G.*
+		FROM (
+				SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ GAME_NEWS_ID
+						,G.USER_ID userId
+						,G.TITLE title
+						,G.VIEW_COUNT viewCount
+						,TO_CHAR(G.WRITE_DATE, 'YYYY-MM-DD') WRITE_DATE
+						,G.BODY body
+						,M.ID M_ID
+						,M.ADDR addr
+						,M.NICKNAME nickname
+						,M.PHONE_NUM PHONE_NUM
+				FROM	GAME_NEWS_BOARD G
+						,MEMBER M
+				WHERE	G.USER_ID = M.ID(+)
+	         )G
+	    WHERE ROWNUM <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectAll" resultMap="GameNewsBoardVOMap">
+		SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ GAME_NEWS_ID
+				,G.USER_ID userId
+				,G.TITLE title
+				,G.VIEW_COUNT viewCount
+				,TO_CHAR(G.WRITE_DATE, 'YYYY-MM-DD') WRITE_DATE
+				,G.BODY body
+				,M.ID M_ID
+				,M.ADDR ADDR
+				,M.NICKNAME 				
+				,M.PHONE_NUM PHONE_NUM
+		FROM	GAME_NEWS_BOARD G
+				,MEMBER M
+		WHERE	G.USER_ID = M.ID(+)
+	</select>
+	
+	<insert id="intsertGameNews" parameterType="GameNewsBoardVO">
+		INSERT INTO GAME_NEWS_BOARD
+		(
+			GAME_NEWS_ID
+			, TITLE
+			, BODY
+			, WRITE_DATE
+			, VIEW_COUNT
+			, USER_ID 
+		)
+		VALUES(
+			GAME_NEWS_BOARD_SEQ.NEXTVAL
+			, #{title}
+			, #{body}
+			, SYSDATE
+			, 0
+			, #{userId}
+		)
+	</insert>
+
+</mapper>

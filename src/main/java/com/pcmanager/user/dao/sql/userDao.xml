@@ -8,7 +8,7 @@
 		<result column="NAME" property="name"/>
 		<result column="PASSWORD" property="password"/>
 		<result column="NICKNAME" property="nickname"/>
-		<result column="PHONENUM" property="phoneNum"/>
+		<result column="PHONE_NUM" property="phoneNum"/>
 		<result column="ADDR" property="addr"/>
 	</resultMap>
 	
@@ -18,7 +18,7 @@
 			, NAME
 			, PASSWORD
 			, NICKNAME
-			, PHONENUM
+			, PHONE_NUM
 			, ADDR
 		)
 		VALUES (
@@ -36,7 +36,7 @@
 				,M.PASSWORD
        			,M.NAME
        			,M.ADDR
-       			,M.PHONENUM
+       			,M.PHONE_NUM phoneNum
        			,M.NICKNAME
 		FROM	MEMBER M
 		WHERE	M.NAME= #{name}
@@ -55,7 +55,7 @@
 				,NICKNAME= #{nickname}
 				</if>
 				<if test= "phoneNum != null and phoneNum != ''">
-				,PHONENUM= #{phoneNum}
+				,PHONE_NUM= #{phoneNum}
 				</if>
 				<if test= "addr != null and addr != ''">
 				,ADDR= #{addr}

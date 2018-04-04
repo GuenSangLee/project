@@ -14,18 +14,18 @@ public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 	}
 	
 	@Override
-	public int inputBoard(GameNewsBoardVO gameNewsBoardVO) {
-		return gameNewsBoardDao.inputBoard(gameNewsBoardVO);
+	public boolean inputBoard(GameNewsBoardVO gameNewsBoardVO) {
+		return gameNewsBoardDao.intsertGameNews(gameNewsBoardVO) >0;
 	}
 
 	@Override
-	public int updateBoard(GameNewsBoardVO gameNewsBoardVO) {
-		return gameNewsBoardDao.updateBoard(gameNewsBoardVO);
+	public boolean updateBoard(GameNewsBoardVO gameNewsBoardVO) {
+		return gameNewsBoardDao.updateGameNews(gameNewsBoardVO) >0;
 	}
 
 	@Override
-	public int removeBoard(int boardId) {
-		return gameNewsBoardDao.removeBoard(boardId);
+	public boolean removeBoard(int boardId) {
+		return gameNewsBoardDao.removeGameNews(boardId) >0;
 	}
 
 	@Override
@@ -41,6 +41,11 @@ public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 	@Override
 	public List<GameNewsBoardVO> search(int type, String condition) {
 		return gameNewsBoardDao.search(type, condition);
+	}
+
+	@Override
+	public List<GameNewsBoardVO> selectTop5() {
+		return gameNewsBoardDao.selectTop5();
 	}
 
 

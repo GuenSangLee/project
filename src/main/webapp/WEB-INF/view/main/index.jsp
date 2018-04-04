@@ -18,7 +18,6 @@
 	<div id="wrapper">
 		<jsp:include page="/WEB-INF/view/template/leftbody.jsp" />
 			
-		</div>
 		<div id="right" >
 			<div id="top">
 				<p> PC 타임</p>
@@ -28,31 +27,29 @@
 					<div style="display:inline-block">1.ㅁㄴㅇ  2.ㅇㄴㅁ  3.ㅁㄴㅇㄹ  4.ㅁㄴㅇㄹ 5.ㅁㄴㅇㄹㄷ</div>
 				</div>
 
-				<div class="mainList" id="gameRank">
-					<div style="text-align:left">게임 소식</div>
+				<div class="mainList">
+					<div style="text-align:left"><a href="<c:url value="/gamenews/list"/>">게임 소식</a></div>
 				</div>
 
-				<div class="mainList" id="gameRank">
-					<table>
+				<div class="mainList" >
+					<table class="board">
 						<tr>
-							<th>
-			 					<td style="width:30px; border:1px solid;">ID</td>
-			 					<td style="width:400px; border:1px solid;">제목</td>
-			 					<td style="width:50px; border:1px solid;">조회수</td>
-			 					<td style="width:100px; border:1px solid;">작성자</td>
-			 					<td style="width:120px; border:1px solid;">작성일</td>
-			 				</th>
+		 					<th style="width:30px; border:1px solid;">ID</th>
+		 					<th style="width:400px; border:1px solid;">제목</th>
+		 					<th style="width:50px; border:1px solid;">조회수</th>
+		 					<th style="width:100px; border:1px solid;">작성자</th>
+		 					<th style="width:120px; border:1px solid;">작성일</th>
+		 				</tr>
 			 			
-			 				<c:forEach items="${gameNewsBoardList}" var="gameNewsBoard">
-			 					<tr>
-			 						<td style="width:30px; border:1px solid;">gameNewsBoard.bordId</td>
-			 						<td style="width:400px; border:1px solid;">gameNewsBoard.title</td>
-			 						<td style="width:50px; border:1px solid;">gameNewsBoard.viewCount</td>
-			 						<td style="width:100px; border:1px solid;">gameNewsBoard.userNickname</td>
-			 						<td style="width:120px; border:1px solid;">gameNewsBoard.date</td>
-			 					</tr>
-			 				</c:forEach>
-			 			</tr>
+		 				<c:forEach items="${gameNewsBoardList}" var="gameNewsBoard">
+		 					<tr>
+		 						<td style="width:30px; border:1px solid;">${gameNewsBoard.boardId}</td>
+		 						<td style="width:400px; border:1px solid;">${gameNewsBoard.title}</td>
+		 						<td style="width:50px; border:1px solid;">${gameNewsBoard.viewCount}</td>
+		 						<td style="width:100px; border:1px solid;">${gameNewsBoard.userVO.nickname}</td>
+		 						<td style="width:150px; border:1px solid;">${gameNewsBoard.writeDate}</td>
+		 					</tr>
+		 				</c:forEach>
 			 		</table>
 				</div>
 
@@ -63,25 +60,22 @@
 				<div id="gameRank"style= "margin: 5px auto; width:700px; height:250px; border: 1px solid; background-color:#fefefe;">
 					<table>
 							<tr>
-								<th>
-			 						<td style="width:30px; border:1px solid;">ID</td>
-			 						<td style="width:400px; border:1px solid;">제목</td>
-			 						<td style="width:50px; border:1px solid;">평점</td>
-			 						<td style="width:100px; border:1px solid;">작성자</td>
-			 						<td style="width:120px; border:1px solid;">작성일</td>
-			 					
-			 					</th>
+		 						<th style="width:30px; border:1px solid;">ID</th>
+		 						<th style="width:400px; border:1px solid;">제목</th>
+		 						<th style="width:50px; border:1px solid;">평점</th>
+		 						<th style="width:100px; border:1px solid;">작성자</th>
+		 						<th style="width:120px; border:1px solid;">작성일</th>
+		 					</tr>
 			 						
 			 					<c:forEach items="${reviewBoardList}" var="reviewBoard">
 			 						<tr>
-			 							<td style="width:30px; border:1px solid;">reviewBoard.bordId</td>
+			 							<td style="width:30px; border:1px solid;">reviewBoard.boardId</td>
 			 							<td style="width:400px; border:1px solid;">reviewBoard.title</td>
 			 							<td style="width:50px; border:1px solid;">reviewBoard.grade</td>
 			 							<td style="width:100px; border:1px solid;">reviewBoard.userNickname</td>
 			 							<td style="width:120px; border:1px solid;">reviewBoard.date</td>
 			 						</tr>
 			 					</c:forEach>
-			 				</tr>
 			 			</table>
 				</div>
 		</div>

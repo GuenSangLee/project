@@ -24,8 +24,8 @@ public class PcManagerController {
 		ModelAndView view= new ModelAndView();
 		
 		view.setViewName("main/index");
-		view.addObject("GameNewsBoardService", gameNewsBoardService.selectAll());
-		view.addObject("reviewBoardService", reviewBoardService.selectAll());
+		view.addObject("gameNewsBoardList", gameNewsBoardService.selectTop5());
+//		view.addObject("reviewBoardService", reviewBoardService.selectAll());
 		
 		return view;
 	}

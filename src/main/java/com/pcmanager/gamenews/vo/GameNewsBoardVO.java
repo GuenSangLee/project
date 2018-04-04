@@ -1,13 +1,33 @@
 package com.pcmanager.gamenews.vo;
 
+import com.pcmanager.user.vo.UserVO;
+
 public class GameNewsBoardVO {
+	private UserVO userVO;
+	
+	public UserVO getUserVO() {
+		return userVO;
+	}
+
+	public void setUserVO(UserVO userVO) {
+		this.userVO = userVO;
+	}
+
 	private int boardId;
 	private int userId;
-	private String userNickname;
 	private String title;
-	private String date;
 	private String body;
 	private int viewCount;
+	private String writeDate;
+	
+
+	public String getWriteDate() {
+		return writeDate;
+	}
+
+	public void setWriteDate(String writeDate) {
+		this.writeDate = writeDate;
+	}
 
 	public int getViewCount() {
 		return viewCount;
@@ -41,14 +61,6 @@ public class GameNewsBoardVO {
 		this.userId = userId;
 	}
 
-	public String getUserNickname() {
-		return userNickname;
-	}
-
-	public void setUserNickname(String userNickname) {
-		this.userNickname = userNickname;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -57,11 +69,4 @@ public class GameNewsBoardVO {
 		this.title = title;
 	}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
 }

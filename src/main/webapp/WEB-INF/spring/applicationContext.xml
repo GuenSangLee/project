@@ -36,22 +36,30 @@
 		class="com.pcmanager.PcManagerController">
 		<property name="gameNewsBoardService" ref="gameNewsBoardService"></property>
 		<property name="reviewBoardService" ref="reviewBoardService"></property>
-		</bean>
+	</bean>
 		
-		<bean id="gameNewsBoardService"
-			class="com.pcmanager.gamenews.service.GameNewsBoardServiceImpl">
-			<property name="gameNewsBoardDao" ref="gameNewsBoardDao" />
+	<bean id="gameNewsBoardController"
+			class="com.pcmanager.gamenews.web.GameNewsBoardController">
+			<property name="gameNewsBoardService" ref="gameNewsBoardService"></property>
+			<property name="userService" ref="userService"/>
 		</bean>
+	
+	<bean id="gameNewsBoardService"
+		class="com.pcmanager.gamenews.service.GameNewsBoardServiceImpl">
+		<property name="gameNewsBoardDao" ref="gameNewsBoardDao" />
+	</bean>
+	
+	<bean id="gameNewsBoardDao" 
+		class="com.pcmanager.gamenews.dao.GameNewsBoardDaoImplForOracle">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="reviewBoardService"
+		class="com.pcmanager.reviewBoard.service.ReviewBoardServiceImpl">
+		<property name="reviewBoardDao" ref="reviewBoardDao"></property>
+	</bean>
 		
-		<bean id="gameNewsBoardDao" class="com.pcmanager.gamenews.dao.GameNewsBoardDaoImpl">
-		</bean>
-		
-		<bean id="reviewBoardService"
-			class="com.pcmanager.reviewBoard.service.ReviewBoardServiceImpl">
-			<property name="reviewBoardDao" ref="reviewBoardDao"></property>
-		</bean>
-			
-		<bean id="reviewBoardDao" class="com.pcmanager.reviewBoard.dao.ReviewBoardDaoImpl"></bean>
+	<bean id="reviewBoardDao" class="com.pcmanager.reviewBoard.dao.ReviewBoardDaoImpl"></bean>
 		
 		
 
