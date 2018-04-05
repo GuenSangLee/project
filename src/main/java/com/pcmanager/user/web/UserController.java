@@ -36,31 +36,15 @@ public class UserController {
 			HttpSession session) {
 		ModelAndView view = new ModelAndView();
 
-		// 넘어오는게 없으면 null(누락 상태) or 아이디는 잇으나 값이 없는 상태
-//		if (userVO.getId() == null || userVO.getId().length() == 0) {
-//			session.setAttribute("status", "emptyId");
-//
-//			return new ModelAndView("redirect:/");
-//		}
-//		if (userVO.getPassword() == null || userVO.getPassword().length() == 0) {
-//			session.setAttribute("status", "emptyPassword");
-//
-//			return new ModelAndView("redirect:/");
-//		}
-		System.out.println(userVO.getName());
-		UserVO userCheck = userService.readUser(userVO.getName());
+		UserVO userCheck = userService.selectUser(userVO, "signIn");
 		if(userCheck == null) {
 			System.out.println("아이디체크 실패");
 			return new ModelAndView("redirect:/");
 		}else {
-			if (userCheck.getPassword().equals(userVO.getPassword())) {
-				session.setAttribute(Member.USER, userCheck);
-				System.out.println("로그인");
-				return new ModelAndView("redirect:/");		
-			}
+			session.setAttribute(Member.USER, userCheck);
+			System.out.println("로그인");
+			return new ModelAndView("redirect:/");		
 		}
-		System.out.println("로그인 실패");
-		return new ModelAndView("redirect:/");
 	}
 
 	// 회원가입
@@ -72,7 +56,6 @@ public class UserController {
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ModelAndView doSignup(@ModelAttribute("writeForm") @Valid UserVO userVO, Errors errors,
 			HttpServletRequest request) {
-		HttpSession session = request.getSession();
 		System.out.println(userVO.getPassword());
 
 		// UserVO loginMember = userService.searchData(userVO);
@@ -98,31 +81,32 @@ public class UserController {
 		System.out.println("get실행");
 		
 		UserVO user= (UserVO) session.getAttribute(Member.USER);
-		UserVO userVO= userService.readUser(user.getName());
+		UserVO checkUser= userService.selectUser(user, "modify");
 		
-		//유저가 글쓴이인지 체크.
-		if( userVO == null ) {
+		if( checkUser == null ){
 			return new ModelAndView("error/404");
 		}
 		ModelAndView view= new ModelAndView();
 		view.setViewName("user/signup");
-		view.addObject("userVO", userVO);
+		view.addObject("userVO", checkUser);
 		view.addObject("mode", "modify");
 		
 		return view;
 	}
 	
-	@RequestMapping(value="/modify/{name}", method=RequestMethod.POST)
-	public String doModifyPage(@PathVariable String name, HttpSession session, HttpServletRequest request,  @ModelAttribute("writeForm") @Valid UserVO userVO, Errors errors) {
-		System.out.println("POST 시작");
-		System.out.println(session.getAttribute(Member.USER)+" !!!!!!!!!!!!!!!!!");
-		UserVO changeVO= (UserVO) session.getAttribute(Member.USER);
-		System.out.println(changeVO.getId() +" !!!!!!!!!!!!!!!!!");
+	@RequestMapping(value="/modify/{email}", method=RequestMethod.POST)
+	public String doModifyPage(@PathVariable String email, HttpSession session, HttpServletRequest request,  @ModelAttribute("writeForm") @Valid UserVO userVO, Errors errors) {
+		System.out.println("modify 시작");
 		
-		UserVO originalVO= userService.readUser(name);
-		System.out.println(originalVO.getId() +" @@@@@@@@@@@@@@@@");
+		UserVO changeVO= (UserVO) session.getAttribute(Member.USER);
+		
+		System.out.println(changeVO.getPassword() +" !!!!!!!!!!!!!!!!!");
+		
+		UserVO originalVO= userService.selectUser(changeVO,"modify");
+		System.out.println(originalVO.getEmail());
 		
 		if(changeVO.getId() != originalVO.getId()) {
+			System.out.println("회원 수정 페이지 실행 오류!");
 			return "error/404";
 		}
 		
@@ -131,7 +115,7 @@ public class UserController {
 //		}
 		UserVO checkUser= new UserVO();
 		checkUser.setId(originalVO.getId());
-		checkUser.setName(originalVO.getName());
+		checkUser.setEmail(originalVO.getEmail());
 //		변경할게 있는지.
 		boolean isModify= false;
 		

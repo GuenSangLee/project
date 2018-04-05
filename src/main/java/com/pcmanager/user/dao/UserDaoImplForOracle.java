@@ -25,13 +25,18 @@ public class UserDaoImplForOracle  extends SqlSessionDaoSupport implements UserD
 	}
 
 	@Override
-	public UserVO selectOne(String name) {
-		return getSqlSession().selectOne("UserDao.selectOne", name);
+	public UserVO selectOne(UserVO userVO) {
+		return getSqlSession().selectOne("UserDao.selectOne", userVO);
 	}
 
 	@Override
 	public int updateData(UserVO userVO) {
 		return getSqlSession().update("UserDao.updateData", userVO);
+	}
+
+	@Override
+	public String selectSalt(String email) {
+		return getSqlSession().selectOne("UserDao.selectSalt", email);
 	}
 
 }

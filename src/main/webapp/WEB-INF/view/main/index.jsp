@@ -46,11 +46,19 @@
 		 						<td style="width:30px; border:1px solid;">${gameNewsBoard.boardId}</td>
 		 						<td style="width:400px; border:1px solid;">${gameNewsBoard.title}</td>
 		 						<td style="width:50px; border:1px solid;">${gameNewsBoard.viewCount}</td>
-		 						<td style="width:100px; border:1px solid;">${gameNewsBoard.userVO.nickname}</td>
+		 						<c:choose>
+									<c:when test="${not empty gameNewsBoard.userVO}">
+										<td style="width:100px; border:1px solid;">${gameNewsBoard.userVO.nickname}(${gameNewsBoard.userVO.email})</td>
+									</c:when>
+									<c:otherwise>
+										<td style="width:100px; border:1px solid;">탈퇴한 회원</td>
+									</c:otherwise>
+								</c:choose>
 		 						<td style="width:150px; border:1px solid;">${gameNewsBoard.writeDate}</td>
 		 					</tr>
 		 				</c:forEach>
 			 		</table>
+				</div>  
 				</div>
 
 				<div id="gameRank"style= "margin: 5px auto; width:700px; height:30px; border: 1px solid; background-color:#fefefe;">

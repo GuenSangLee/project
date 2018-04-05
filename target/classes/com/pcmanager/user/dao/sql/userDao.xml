@@ -3,53 +3,49 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserDao">
-		<resultMap type="UserVO" id="UserVOMap">
-		<id column="ID" property="id"/>
-		<result column="NAME" property="name"/>
-		<result column="PASSWORD" property="password"/>
-		<result column="NICKNAME" property="nickname"/>
-		<result column="PHONE_NUM" property="phoneNum"/>
-		<result column="ADDR" property="addr"/>
-	</resultMap>
 	
 	<insert id="insertUser" parameterType="UserVO">
 		INSERT	INTO MEMBER (
 			ID
-			, NAME
+			, EMAIL
 			, PASSWORD
 			, NICKNAME
 			, PHONE_NUM
 			, ADDR
+			, SALT
 		)
 		VALUES (
 			MEMBER_ID_SEQ.NEXTVAL
-			, #{name}
+			, #{email}
 			, #{password}
 			, #{nickname}
 			, #{phoneNum}
 			, #{addr}
+			, #{salt}
 		)
 	</insert>
 	
-	<select id="selectOne" parameterType="string" resultType="UserVO">
+	<select id="selectOne" parameterType="UserVO" resultType="UserVO">
 		SELECT	M.ID
 				,M.PASSWORD
-       			,M.NAME
+       			,M.EMAIL
        			,M.ADDR
        			,M.PHONE_NUM phoneNum
-       			,M.NICKNAME
+       			,M.NICKNAME nickname
 		FROM	MEMBER M
-		WHERE	M.NAME= #{name}
+		WHERE	M.EMAIL= #{email}
+		AND		M.PASSWORD= #{password}
 	</select>
 	
 	
 	<update id="updateData" parameterType="UserVO">
 		UPDATE	MEMBER
-		SET		<if test= "name != null and name != ''">
-				NAME= #{name}
+		SET		<if test= "email != null and email != ''">
+				EMAIL= #{email}
 				</if>
 				<if test= "password != null and password != ''">
 				,PASSWORD= #{password}
+				,SALT= #{salt}
 				</if>
 				<if test= "nickname != null and nickname != ''">
 				,NICKNAME= #{nickname}
@@ -62,5 +58,11 @@
 				</if>
 		WHERE	ID= #{id}
 	</update>
+	
+	<select id="selectSalt" parameterType="string" resultType="string">
+		SELECT	NVL(M.SALT, '')
+		FROM 	MEMBER M
+		WHERE	M.EMAIL = #{email}
+	</select>
 	
 </mapper>

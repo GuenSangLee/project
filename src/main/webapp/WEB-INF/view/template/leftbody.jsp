@@ -22,7 +22,7 @@
 		
 		$("#modifyBtn").click(function(){
 			$("#signForm").attr({
-				"action":"<c:url value="/modify/${sessionScope.__USER__.name}"/>",
+				"action":"<c:url value="/modify/${sessionScope.__USER__.email}"/>",
 				"method": "post"
 			}).submit();
 		});
@@ -34,7 +34,7 @@
 				<c:if test="${empty sessionScope.__USER__}">
 					<form:form modelAttribute="userForm">
 						<div style=" display:inline-block;">
-							<div><input type="text" id="name" name="name" placeholder="아이디" style="width:130px;"/> </div>
+							<div><input type="text" id="email" name="email" placeholder="아이디" style="width:130px;"/> </div>
 							<div><input type="password" id="password" name="password" placeholder="비밀번호" style="width:130px;"/> </div>
 						</div> 
 						<input class="button" type="button" id="sign_in" value="로그인" style="display:inline-block; width: 50px; height: 30px;" />
@@ -47,9 +47,8 @@
 						
 				<c:if test="${not empty sessionScope.__USER__}">
 					<form:form modelAttribute="signForm">
-					${sessionScope.__USER__.name}님
+					${sessionScope.__USER__.nickname}님
 					환영합니다.
-					<input class="button" type="button" id="modifyBtn" vlaue="회원 정보 수정" />
 					<a href="<c:url value="/modify"/>"><div>회원정보 수정</div></a>
 					<a href="<c:url value="/logout"/>"><div>로그아웃</div></a>					
 				</form:form>

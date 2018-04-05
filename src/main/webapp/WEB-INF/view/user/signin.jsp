@@ -26,7 +26,7 @@
 			<div style="margin:1px auto; "><b>로그인이 필요합니다.</b></div>
 			<form:form modelAttribute="userForm">
 					<div style=" display:inline-block;">
-						<div><input type="text" id="name" name="name" placeholder="아이디" style="width:130px;"/> </div>
+						<div><input type="text" id="email" name="email" placeholder="아이디" style="width:130px;"/> </div>
 						<div><input type="password" id="password" name="password" placeholder="비밀번호" style="width:130px;"/> </div>
 					</div>
 					<div></div>

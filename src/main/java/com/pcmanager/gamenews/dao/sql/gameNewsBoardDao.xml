@@ -12,6 +12,7 @@
 		<result column="USER_ID" property="userId"/>
 		<association property="userVO" javaType="UserVO">
 			<id column="M_ID" property="id"/>
+			<result column="EMAIL" property="email"/>
 			<result column="ADDR" property="addr"/>
 			<result column="NICKNAME" property="nickname"/>
 			<result column="PHONE_NUM" property="phoneNum"/>
