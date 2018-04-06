@@ -70,4 +70,14 @@ public class UserServiceImpl implements UserService {
 		return userDao.selectSalt(email); 
 	}
 
+	@Override
+	public boolean selectCountUserEmail(String userEmail) {
+		return userDao.selectCountUserEmail(userEmail) > 0;
+	}
+
+	@Override
+	public boolean selectCountUserNickname(String userNickname) {
+		return userDao.selectCountUserNickname(userNickname) > 0;
+	}
+
 }

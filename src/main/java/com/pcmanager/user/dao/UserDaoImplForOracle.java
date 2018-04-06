@@ -39,4 +39,14 @@ public class UserDaoImplForOracle  extends SqlSessionDaoSupport implements UserD
 		return getSqlSession().selectOne("UserDao.selectSalt", email);
 	}
 
+	@Override
+	public int selectCountUserEmail(String userEmail) {
+		return getSqlSession().selectOne("UserDao.selectCountUserEmail", userEmail);
+	}
+
+	@Override
+	public int selectCountUserNickname(String userNickname) {
+		return getSqlSession().selectOne("UserDao.selectCountUserNickname", userNickname);
+	}
+
 }

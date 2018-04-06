@@ -11,4 +11,6 @@ public interface UserService {
 	public UserVO selectUser(UserVO userVO, String mode);
 	public boolean updateData(UserVO userVO);
 	public String selectSalt(String email);
+	public boolean selectCountUserEmail(String userEmail);
+	public boolean selectCountUserNickname(String userNickname);
 }

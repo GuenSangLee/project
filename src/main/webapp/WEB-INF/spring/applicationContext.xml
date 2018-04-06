@@ -68,7 +68,4 @@
 	</bean>
 		
 	<bean id="reviewBoardDao" class="com.pcmanager.reviewBoard.dao.ReviewBoardDaoImpl"></bean>
-		
-		
-
 </beans>

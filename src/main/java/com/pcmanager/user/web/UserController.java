@@ -1,7 +1,9 @@
 package com.pcmanager.user.web;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pcmanager.user.constants.Member;
@@ -155,5 +159,33 @@ public class UserController {
 	@RequestMapping("/need/login")
 	public String viewLogin() {
 		return "user/signin";
+	}
+	
+	//실시간 중복 체크.
+	@RequestMapping("/api/exists/email")
+	@ResponseBody
+	public Map<String, Boolean> apiIsExistsEmail(@RequestParam(required = false, defaultValue = "") String email){
+		Map<String, Boolean> response= new HashMap<String, Boolean>();
+		
+		if(email == null || email.equals("") ) {
+			response.put("isEmail", true);
+			return response;
+		}
+		boolean isExists= userService.selectCountUserEmail(email);
+		response.put("isEmail", isExists);
+		
+		System.out.println("이메일 체크..."+ isExists);
+		return response;
+	}
+	
+	@RequestMapping("/api/exists/nickname")
+	@ResponseBody
+	public Map<String, Boolean> apiIsExistsNickname(@RequestParam String nickname){
+		boolean isExists= userService.selectCountUserNickname(nickname);
+		Map<String, Boolean> response= new HashMap<String, Boolean>();
+		response.put("isNickname", isExists);
+		
+		System.out.println("닉네임 체크..."+ isExists);
+		return response;
 	}
 }

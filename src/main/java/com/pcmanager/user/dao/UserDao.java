@@ -11,4 +11,6 @@ public interface UserDao {
 	public UserVO selectOne(UserVO userVO);
 	public int updateData(UserVO userVO);
 	public String selectSalt(String userEmail);
+	public int selectCountUserEmail(String userEmail);
+	public int selectCountUserNickname(String userNickname);
  }
