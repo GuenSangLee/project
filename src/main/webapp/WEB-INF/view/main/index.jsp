@@ -5,7 +5,6 @@
 <!DOCTYPE html >
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/common.css"/>"/>
 <script src="<c:url value="/static/js/jquery-3.3.1.min.js"/>" type="text/javascript"> </script>
@@ -58,8 +57,6 @@
 		 					</tr>
 		 				</c:forEach>
 			 		</table>
-				</div>  
-				</div>
 
 				<div id="gameRank"style= "margin: 5px auto; width:700px; height:30px; border: 1px solid; background-color:#fefefe;">
 					<div style="text-align:left">PC방 리뷰</div>
@@ -85,8 +82,9 @@
 			 						</tr>
 			 					</c:forEach>
 			 			</table>
+					</div>
 				</div>
-		</div>
+			</div>
 	</div>
 </body>
 

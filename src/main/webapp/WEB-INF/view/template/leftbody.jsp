@@ -26,7 +26,7 @@
 				"method": "post"
 			}).submit();
 		});
-	
+		
 	});
 </script>
 <div id="leftBody">
@@ -49,9 +49,10 @@
 					<form:form modelAttribute="signForm">
 					${sessionScope.__USER__.nickname}님
 					환영합니다.
-					<a href="<c:url value="/modify"/>"><div>회원정보 수정</div></a>
-					<a href="<c:url value="/logout"/>"><div>로그아웃</div></a>					
-				</form:form>
+						<a href="<c:url value="/modify"/>">회원정보 수정</a>
+						<a href="<c:url value="/logout"/>">로그아웃</a>					
+					</form:form>
 				</c:if>
 			</div>
+			<jsp:include page="/WEB-INF/view/template/map.jsp" />
 </div>
