@@ -17,14 +17,15 @@
     <script type="text/javascript">
     var map;
     var infowindow;
+    var pyrmont;
     function getLocation() {
   	if (navigator.geolocation) { // GPS를 지원하면
     	navigator.geolocation.watchPosition(function(position) {
     	//window.open("https://www.google.com/maps/search/pc방/"+position.coords.latitude+",+"+position.coords.longitude,"나의 추억들","width=500, height=500, scrollbars=yes, resizable=no");
 		//현재는 시청
-    	initMap(position.coords.latitude, position.coords.longitude );
+    //	initMap(position.coords.latitude, position.coords.longitude );
     	//ktds 
-	//	initMap(37.483500, 127.003759 );
+		initMap(37.483500, 127.003759 );
     	
     }, function(error) {
       	console.error(error);
@@ -40,7 +41,7 @@
 	getLocation();
 
 	function initMap(latitude, longitude) {
-		var pyrmont = {lat: latitude, lng: longitude};
+		pyrmont = {lat: latitude, lng: longitude};
     	 geocoder = new google.maps.Geocoder();
     	  geocoder.geocode({'latLng': pyrmont}, function(results, status) {
     		      if (status == google.maps.GeocoderStatus.OK) {
@@ -54,7 +55,7 @@
     	});
     	map = new google.maps.Map(document.getElementById('map'), {
       		center: pyrmont,
-      		zoom: 16
+      		zoom: 15
     	});
 	}
 	
@@ -69,7 +70,6 @@
 	function callback(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           for (var i = 0; i < results.length; i++) {
-        	  alert(results[i].name+"");
         	  	addMarker(results[i]);	        		  
           }
         }

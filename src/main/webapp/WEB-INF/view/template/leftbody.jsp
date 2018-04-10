@@ -9,11 +9,14 @@
 	$().ready(function(){
 			
 		$("#sign_in").click(function(){	
-			var mapAddrDiv= $("<div style= 'display:none;'><input id='mapAddr' name='mapAddr' value="+ $("#map_addr").text() +"></input></div>");
-			$("#password").after(mapAddrDiv);
+			var latDiv= $("<div style= 'display:none;'><input id='latitude' name='latitude' value="+ pyrmont['lat'] +"></input></div>");
+			var lngDiv= $("<div style= 'display:none;'><input id='longitude' name='longitude' value="+ pyrmont['lng'] +"></input></div>");
+			
+			$("#password").after(latDiv);
+			$("#password").after(lngDiv);
 			
 			$("#userForm").attr({
-				"action": "<c:url value ="/signin"/>",
+				"action": "<c:url value ="/signin"/>", 
 				"method": "post"
 			}).submit();
 		});
@@ -36,6 +39,7 @@
 </script>
 <div id="leftBody">
 			<div style="margin:5px; border:1px solid; height:150px;">
+			<c:if test="${empty sessionScope.__USER__}">
 					<form:form modelAttribute="userForm">
 						<div style=" display:inline-block;">
 							<div><input type="text" id="email" name="email" placeholder="아이디" style="width:130px;"/> </div>
@@ -46,6 +50,7 @@
 						<input class="button" type="button" id="sign_up" value="회원가입"  style=" display:inline-block; width: 70px; height: 30px;" />
 						</a>
 					</form:form>
+			</c:if>
 				
 						
 				<c:if test="${not empty sessionScope.__USER__}">

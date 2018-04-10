@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pcmanager.user.constants.Member;
 import com.pcmanager.user.service.UserService;
 import com.pcmanager.user.vo.UserVO;
+import com.pcmanager.util.GpsToAddress;
 
 @Controller
 public class UserController {
@@ -39,7 +40,10 @@ public class UserController {
 	public ModelAndView viewLoginPage(@ModelAttribute("userForm") @Valid UserVO userVO, Errors errors,
 			HttpSession session) {
 		ModelAndView view = new ModelAndView();
-
+		
+		Double	latitude = Double.parseDouble(userVO.getLatitude());
+		Double	longitude = Double.parseDouble(userVO.getLongitude());
+		
 		UserVO userCheck = userService.selectUser(userVO, "signIn");
 		if(userCheck == null) {
 			System.out.println("아이디체크 실패");
@@ -47,7 +51,8 @@ public class UserController {
 		}else {
 			session.setAttribute(Member.USER, userCheck);
 			System.out.println("로그인");
-			System.out.println("접속 위치: " + userVO.getMapAddr());
+			GpsToAddress gpsToAddress = new GpsToAddress(latitude, longitude);
+			System.out.println("접속 위치: " + gpsToAddress.getAddress());
 			return new ModelAndView("redirect:/");		
 		}
 	}
