@@ -11,6 +11,7 @@ public class UserVO {
 	private String phoneNum;
 	private String addr;
 	private String salt;
+	private String mapAddr;
 	
 	public int getId() {
 		return id;
@@ -53,6 +54,18 @@ public class UserVO {
 	}
 	public void setSalt(String salt) {
 		this.salt = salt;
+	}
+	/**
+	 * @return the mapAddr
+	 */
+	public String getMapAddr() {
+		return mapAddr;
+	}
+	/**
+	 * @param mapAddr the mapAddr to set
+	 */
+	public void setMapAddr(String mapAddr) {
+		this.mapAddr = mapAddr;
 	}
 
 

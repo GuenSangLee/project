@@ -47,6 +47,7 @@ public class UserController {
 		}else {
 			session.setAttribute(Member.USER, userCheck);
 			System.out.println("로그인");
+			System.out.println("접속 위치: " + userVO.getMapAddr());
 			return new ModelAndView("redirect:/");		
 		}
 	}
