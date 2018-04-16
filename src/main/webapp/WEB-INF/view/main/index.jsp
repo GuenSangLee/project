@@ -10,6 +10,10 @@
 <script src="<c:url value="/static/js/jquery-3.3.1.min.js"/>" type="text/javascript"> </script>
 <script type="text/javascript">
 	$().ready(function(){	
+		$("#gamenews").click(function() {
+			$("#right").load("<c:url value="/gamenews/list"/>");
+		});
+		
 	});
 </script>
 </head>
@@ -27,7 +31,11 @@
 				</div>
 
 				<div class="mainList">
-					<div style="text-align:left"><a href="<c:url value="/gamenews/list"/>">게임 소식</a></div>
+					<div style="text-align:left">
+						<span id="gamenews" style="cursor: pointer;">
+							게임 소식
+						</a>
+					</div>
 				</div>
 
 				<div class="mainList" >

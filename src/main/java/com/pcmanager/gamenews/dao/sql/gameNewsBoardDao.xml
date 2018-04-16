@@ -40,22 +40,6 @@
 	    WHERE ROWNUM <![CDATA[<=]]> 5
 	</select>
 	
-	<select id="selectAll" resultMap="GameNewsBoardVOMap">
-		SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ GAME_NEWS_ID
-				,G.USER_ID userId
-				,G.TITLE title
-				,G.VIEW_COUNT viewCount
-				,TO_CHAR(G.WRITE_DATE, 'YYYY-MM-DD') WRITE_DATE
-				,G.BODY body
-				,M.ID M_ID
-				,M.ADDR ADDR
-				,M.NICKNAME 				
-				,M.PHONE_NUM PHONE_NUM
-		FROM	GAME_NEWS_BOARD G
-				,MEMBER M
-		WHERE	G.USER_ID = M.ID(+)
-	</select>
-	
 	<insert id="intsertGameNews" parameterType="GameNewsBoardVO">
 		INSERT INTO GAME_NEWS_BOARD
 		(
@@ -75,5 +59,76 @@
 			, #{userId}
 		)
 	</insert>
+	
+	<select id="selectCountAll" resultType="_int" parameterType="GameNewsBoardVO">
+		SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ COUNT(G.GAME_NEWS_ID)
+		FROM	GAME_NEWS_BOARD G,
+				MEMBER M
+		WHERE	G.USER_ID = M.ID(+)
+		<choose>
+			<when test="searchType == 1">
+		AND		G.TITLE LIKE '%'||#{searchKeyword} ||'%'
+			</when>
+			<when test="searchType == 2">
+		AND		G.BODY LIKE '%'||#{searchKeyword} ||'%'
+			</when>
+			<when test="searchType == 3">
+		AND		( G.BODY LIKE '%'||#{searchKeyword} ||'%'
+		OR		G.BODY LIKE '%'||#{searchKeyword} ||'%' )
+			</when>
+			<when test="searchType == 4">
+		AND		G.NICKNAME LIKE '%'||#{searchKeyword} ||'%'
+			</when>
+			<when test="searchType == 5">
+		AND		G.EMAIL LIKE '%'||#{searchKeyword} ||'%'
+			</when>
+		
+		</choose>
+	</select>
+	
+	<select id="selectAll" resultMap="GameNewsBoardVOMap" parameterType="GameNewsBoardSearchVO">
+		SELECT	*
+		FROM	(
+			
+					SELECT	ROWNUM RNUM
+							, G.*
+					FROM	(
+								SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ GAME_NEWS_ID
+										,G.USER_ID userId
+										,G.TITLE title
+										,G.VIEW_COUNT viewCount
+										,TO_CHAR(G.WRITE_DATE, 'YYYY-MM-DD') WRITE_DATE
+										,G.BODY body
+										,M.ID M_ID
+										,M.ADDR addr
+										,M.NICKNAME nickname
+										,M.PHONE_NUM PHONE_NUM
+								FROM	GAME_NEWS_BOARD G,
+										MEMBER M
+								WHERE	G.USER_ID = M.ID(+)
+								<choose>
+										<when test="searchType == 1">
+								AND		G.TITLE LIKE '%'||#{searchKeyword} ||'%'
+										</when>
+										<when test="searchType == 2">
+								AND		G.BODY LIKE '%'||#{searchKeyword} ||'%'
+										</when>
+										<when test="searchType == 3">
+								AND		( C.BODY LIKE '%'||#{searchKeyword} ||'%'
+								OR		G.BODY LIKE '%'||#{searchKeyword} ||'%' )
+										</when>
+										<when test="searchType == 4">
+								AND		G.NICKNAME LIKE '%'||#{searchKeyword} ||'%'
+										</when>
+										<when test="searchType == 5">
+								AND		G.EMAIL LIKE '%'||#{searchKeyword} ||'%'
+										</when>
+								</choose>
+								ORDER	BY G.GAME_NEWS_ID DESC
+							)G
+					WHERE	ROWNUM <![CDATA[<=]]> #{endNumber}
+				)
+		WHERE	RNUM >= #{startNumber}
+	</select>
 
 </mapper>

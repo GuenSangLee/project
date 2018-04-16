@@ -14,90 +14,102 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHfHAHCwsvcl4OYvchu2bhQ9Q2A2_Sb84&callback=initMap"
     async defer></script> -->
    
-    <script type="text/javascript">
-    var map;
-    var infowindow;
-    var pyrmont;
-    function getLocation() {
-  	if (navigator.geolocation) { // GPS를 지원하면
-    	navigator.geolocation.watchPosition(function(position) {
-    	//window.open("https://www.google.com/maps/search/pc방/"+position.coords.latitude+",+"+position.coords.longitude,"나의 추억들","width=500, height=500, scrollbars=yes, resizable=no");
-		//현재는 시청
-    //	initMap(position.coords.latitude, position.coords.longitude );
-    	//ktds 
-		initMap(37.483500, 127.003759 );
-    	
-    }, function(error) {
-      	console.error(error);
-    	}, {
-      		enableHighAccuracy: true,
-      		maximumAge: 0,
-      		timeout: Infinity
-    	});
-  	}else {
-    	alert('GPS를 지원하지 않습니다');
-  	}
-	}
-	getLocation();
-
-	function initMap(latitude, longitude) {
-		pyrmont = {lat: latitude, lng: longitude};
-    	 geocoder = new google.maps.Geocoder();
-    	  geocoder.geocode({'latLng': pyrmont}, function(results, status) {
-    		      if (status == google.maps.GeocoderStatus.OK) {
-    				if (results[0]) {
-    					var address_nm = results[0].formatted_address;
-    					document.getElementById('map_addr').innerHTML = address_nm;
-    				}
-    		      } else {
-    		        	
-    		      }
-    	});
-    	map = new google.maps.Map(document.getElementById('map'), {
-      		center: pyrmont,
-      		zoom: 15
-    	});
-	}
-	
-	function performSearch() {
-		  var request = {
-		    bounds: map.getBounds(),
-		    name: 'pc방'
-		  };
-		  service.radarSearch(request, callback);
-	}
-	
-	function callback(results, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-        	  	addMarker(results[i]);	        		  
-          }
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDHfHAHCwsvcl4OYvchu2bhQ9Q2A2_Sb84&sencor=ture">  
+</script>  
+<script type="text/javascript">  
+ 
+ 
+var kyun ="";
+var map;
+var marker;
+var formated_address2;
+var temp_x;
+var temp_y;
+var value1;
+var pyrmont;
+$(document).ready(function() {   
+ 
+ 
+         
+  navigator.geolocation.getCurrentPosition(function(position){
+	  pyrmont = {lat: position.coords.latitude, lng: position.coords.longitude};
+	  console.log(position);
+  		var latlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+        var myOptions = {   
+              zoom : 12,   
+              center : latlng,   
+              mapTypeId : google.maps.MapTypeId.ROADMAP   
+        }   
+        map = new google.maps.Map(document.getElementById("map_addr"), myOptions);   
+        marker = new google.maps.Marker({   
+            position : latlng,    
+            map : map   
+        });   
+            
+         
+ 
+ 
+       
+    }); 
+         
+ });   
+ 
+ 
+GoogleMap = {
+        /* 초기화. */
+        initialize : function() {
+            this.input = document.getElementById("GoogleMap_input");
+            this.address = document.getElementById("GoogleMap_addr");
+            this.geocoder = new google.maps.Geocoder();
+            this.infowindow = new google.maps.InfoWindow();
+                
+       
         }
-	 }
-	
-	 function addMarker(place) {
-	 	var marker = new google.maps.Marker({
-		    map: map,
-		    position: place.geometry.location,
-		    icon: {
-		      url: 'https://developers.google.com/maps/documentation/javascript/images/circle.png',
-		      anchor: new google.maps.Point(10, 10),
-		      scaledSize: new google.maps.Size(20, 20)
-		    }
-	  	});
-
-		 google.maps.event.addListener(marker, 'click', function() {
-		    service.getDetails(place, function(result, status) {
-		      if (status !== google.maps.places.PlacesServiceStatus.OK) {
-		        console.error(status);
-		        return;
-		      }
-		      infoWindow.setContent(result.name);
-		      infoWindow.open(map, marker);
-		    });
-		  });
-		}
+    }
+    window.onload = function(){
+        GoogleMap.initialize();
+    }
+ 
+ 
+function insertText()
+{
+  var tempName = window.top.dialogArguments;
+  tempName.userName = value1;
+  tempName.changeText();
+}
+ 
+ 
+function modalCancel()
+{
+  var tempName = window.dialogArguments;
+  tempName.changeText(); 
+}
+function parentClose(){
+ window.top.close();
+}
+function newWin(){
+ window.open("test.html","","");
+}
+function modalclose(){
+ self.close();
+}
+ 
+ 
+ 
+ 
+clss = {
+    a: function () {  
+map.setCenter(kyun);
+marker.setPosition(kyun);
+marker.setAnimation(google.maps.Animation.DROP);
+$('#address').html(formated_address2);   
+         $('#lat').html(temp_x);   
+         $('#lng').html(temp_y);
+value1 = temp_x+','+temp_y;
+}
+}
+ 
+ 
 </script>
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHfHAHCwsvcl4OYvchu2bhQ9Q2A2_Sb84&libraries=places" async defer></script>
 <div id="map_addr" style="border: 1px solid; width:200px; height:250px; font-size:10pt;"></div>
 <div id="map" style="border: 1px solid; width:200px; height:250px;"></div>

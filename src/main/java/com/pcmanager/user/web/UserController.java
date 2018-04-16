@@ -35,26 +35,37 @@ public class UserController {
 	}
 
 	
+	@RequestMapping(value="/login")
+	public String viewSign() {
+		
+		return "template/login";
+	}
 	// 로그인을 했다는 상태정보를 가져와서 했다면 리스트를 보여주고 아니면 로그인페이지로 돌아간다.
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	public ModelAndView viewLoginPage(@ModelAttribute("userForm") @Valid UserVO userVO, Errors errors,
 			HttpSession session) {
 		ModelAndView view = new ModelAndView();
 		
-		Double	latitude = Double.parseDouble(userVO.getLatitude());
-		Double	longitude = Double.parseDouble(userVO.getLongitude());
+		Double latitude;
+		Double longitude;
+		try {
+			latitude = Double.parseDouble(userVO.getLatitude());
+			longitude = Double.parseDouble(userVO.getLongitude());
+		}catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		
 		
 		UserVO userCheck = userService.readUser(userVO, "signIn");
 		if(userCheck == null) {
 			System.out.println("아이디체크 실패");
-			return new ModelAndView("redirect:/");
 		}else {
 			session.setAttribute(Member.USER, userCheck);
 			System.out.println("로그인");
 			GpsToAddress gpsToAddress = new GpsToAddress(latitude, longitude);
 			System.out.println("접속 위치: " + gpsToAddress.getAddress());
-			return new ModelAndView("redirect:/");		
 		}
+		return new ModelAndView("template/login");		
 	}
 
 	// 회원가입
@@ -78,12 +89,12 @@ public class UserController {
 		return new ModelAndView("redirect:/signup");
 	}
 
-	@RequestMapping("/logout")
+	@RequestMapping("/signout")
 	public String viewLogoutPage(HttpSession session) {
 		session.invalidate();
 		System.out.println("로그아웃");
 		
-		return "main/index";
+		return "template/login";
 	}
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public ModelAndView viewModifyPage( HttpSession session) {

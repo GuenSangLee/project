@@ -6,6 +6,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.pcmanager.user.vo.UserVO" alias="UserVO" />
+		<typeAlias type="com.pcmanager.gamenews.vo.GameNewsBoardSearchVO" alias="GameNewsBoardSearchVO"/>
 		<typeAlias type="com.pcmanager.gamenews.vo.GameNewsBoardVO" alias="GameNewsBoardVO"/>
 	</typeAliases>
 	

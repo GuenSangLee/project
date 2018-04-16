@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
+import com.pcmanager.gamenews.vo.GameNewsBoardSearchVO;
 import com.pcmanager.gamenews.vo.GameNewsBoardVO;
 
 public class GameNewsBoardDaoImplForOracle extends SqlSessionDaoSupport implements GameNewsBoardDao {
@@ -46,6 +47,16 @@ public class GameNewsBoardDaoImplForOracle extends SqlSessionDaoSupport implemen
 	@Override
 	public List<GameNewsBoardVO> selectTop5() {
 		return getSqlSession().selectList("GameNewsBoardDao.selectTop5");
+	}
+
+	@Override
+	public int selectCountAll(GameNewsBoardSearchVO gameNewsBoardSearchVO) {
+		return getSqlSession().selectOne("GameNewsBoardDao.selectCountAll", gameNewsBoardSearchVO);
+	}
+
+	@Override
+	public List<GameNewsBoardVO> selectAll(GameNewsBoardSearchVO gameNewsBoardSearchVO) {
+		return getSqlSession().selectList("GameNewsBoardDao.selectAll", gameNewsBoardSearchVO );
 	}
 
 }

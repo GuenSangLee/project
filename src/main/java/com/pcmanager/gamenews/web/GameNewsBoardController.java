@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pcmanager.gamenews.service.GameNewsBoardService;
+import com.pcmanager.gamenews.vo.GameNewsBoardSearchVO;
 import com.pcmanager.gamenews.vo.GameNewsBoardVO;
 import com.pcmanager.user.constants.Member;
 import com.pcmanager.user.service.UserService;
 import com.pcmanager.user.vo.UserVO;
+
+import io.github.seccoding.web.pager.explorer.PageExplorer;
 
 @Controller
 public class GameNewsBoardController {
@@ -29,11 +32,29 @@ public class GameNewsBoardController {
 	
 	
 	@RequestMapping("/gamenews/list")
-	public ModelAndView viewGameNewsBoard() {
+	public ModelAndView viewGameNewsBoard(GameNewsBoardSearchVO gameNewsBoardSearchVO, HttpSession session) {
 		ModelAndView view = new ModelAndView();
 		
+//		view.setViewName("gamenews/list");
+//		view.addObject("gameNewsBoardList", gameNewsBoardService.selectAll());
+//		return view;
+		
+		if( gameNewsBoardSearchVO.getPageNo() < 0) {
+			//Session에 저장된 CommunitySearchVO를 가져옴
+			//Session에 저장된 CommunitySearchVO가 없을 경우, PageNo= 0 으로 초기화.
+			gameNewsBoardSearchVO= (GameNewsBoardSearchVO) session.getAttribute("__SEARCH__");
+			if (gameNewsBoardSearchVO == null) {
+				gameNewsBoardSearchVO= new GameNewsBoardSearchVO();
+				gameNewsBoardSearchVO.setPageNo(0);
+			}
+		}
+		
+		
+		session.setAttribute("__SEARCH__", gameNewsBoardSearchVO);
 		view.setViewName("gamenews/list");
-		view.addObject("gameNewsBoardList", gameNewsBoardService.selectAll());
+		view.addObject("search", gameNewsBoardSearchVO);
+		PageExplorer pageExplorer = gameNewsBoardService.getall(gameNewsBoardSearchVO);
+		view.addObject("pageExplorer", pageExplorer);
 		
 		return view;
 	}

@@ -1,10 +1,15 @@
 package com.pcmanager.gamenews.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.pcmanager.gamenews.dao.GameNewsBoardDao;
+import com.pcmanager.gamenews.vo.GameNewsBoardSearchVO;
 import com.pcmanager.gamenews.vo.GameNewsBoardVO;
+
+import io.github.seccoding.web.pager.Pager;
+import io.github.seccoding.web.pager.PagerFactory;
+import io.github.seccoding.web.pager.explorer.ClassicPageExplorer;
+import io.github.seccoding.web.pager.explorer.PageExplorer;
 
 public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 	private GameNewsBoardDao gameNewsBoardDao;
@@ -46,6 +51,21 @@ public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 	@Override
 	public List<GameNewsBoardVO> selectTop5() {
 		return gameNewsBoardDao.selectTop5();
+	}
+
+	@Override
+	public PageExplorer getall(GameNewsBoardSearchVO gameNewsBoardSearchVO) {
+		Pager pager= PagerFactory.getPager(Pager.ORACLE,
+				gameNewsBoardSearchVO.getPageNo()+"",
+				gameNewsBoardDao.selectCountAll(gameNewsBoardSearchVO));
+
+		PageExplorer pageExplorer= pager.makePageExplorer(ClassicPageExplorer.class
+				, gameNewsBoardSearchVO);
+		
+		pageExplorer.setList(gameNewsBoardDao.selectAll(gameNewsBoardSearchVO));
+		
+		
+		return pageExplorer;
 	}
 
 
