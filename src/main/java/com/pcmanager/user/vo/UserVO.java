@@ -1,14 +1,19 @@
 package com.pcmanager.user.vo;
 
+import javax.validation.constraints.NotEmpty;
 
 public class UserVO {
 	
 	private int id;
-	
+	@NotEmpty(message= "이메일 입력이 필요합니다.")
 	private String email;
+	@NotEmpty(message= "비밀번호 입력이 필요합니다.")
 	private String password;
+	@NotEmpty(message= "닉네임 입력이 필요합니다.")
 	private String nickname;
+	@NotEmpty(message= "핸드폰 입력이 필요합니다.")
 	private String phoneNum;
+	@NotEmpty(message= "필수 입력")
 	private String addr;
 	private String salt;
 	private String mapAddr;

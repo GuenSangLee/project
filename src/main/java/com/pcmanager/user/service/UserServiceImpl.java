@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public List<UserVO> selectAll() {
+	public List<UserVO> readAll() {
 		return userDao.selectAll();
 	}
 
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 	}	
 			
 	@Override
-	public UserVO selectUser(UserVO userVO, String mode) {
+	public UserVO readUser(UserVO userVO, String mode) {
 		UserVO checkUser= null;
 		String salt = userDao.selectSalt(userVO.getEmail());
 		if (salt == null) {
@@ -66,17 +66,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String selectSalt(String email) {
+	public String readSalt(String email) {
 		return userDao.selectSalt(email); 
 	}
 
 	@Override
-	public boolean selectCountUserEmail(String userEmail) {
+	public boolean readCountUserEmail(String userEmail) {
 		return userDao.selectCountUserEmail(userEmail) > 0;
 	}
 
 	@Override
-	public boolean selectCountUserNickname(String userNickname) {
+	public boolean readCountUserNickname(String userNickname) {
 		return userDao.selectCountUserNickname(userNickname) > 0;
 	}
 

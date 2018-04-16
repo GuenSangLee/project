@@ -172,8 +172,10 @@
 		<div style="margin-top: 10px; width:600px; margin:0 auto;">
 			<form:form modelAttribute="writeForm" >
 			<div class="pageList">아이디</div><input type="text" name="email" id="email" style="display:inline-block"  value="${userVO.email}"  placeholder="email형식(email@email.com)" /><br/>
+			<form:errors path="email"/>
 			<div class="duplication" id="email-duplication">사용할 수 없는 이메일입니다.</div>
 			<div class="pageList">비밀번호</div> <input type="password" id="password" name="password" placeholder="비밀번호(6자 이상)"  /><br/>
+			<form:errors path="password"/>
 			<div class="pageList">비밀번호 확인</div> <input type="password" id="password-confirm" /><br/>
 			<div class="duplication" id="password-duplication">비밀번호가 다릅니다.</div>
 			<div class="pageList">
@@ -183,8 +185,11 @@
 			
 			<div class="pageList">닉네임</div> <input type="text" name="nickname" id="nickname" value="${userVO.nickname}"/><br/>
 			<div class="duplication" id="nickname-duplication">사용할 수 없는 닉네임입니다.</div>
+			<form:errors path="nickname"/>
 			<div class="pageList">전화번호</div> <input type="text" name="phoneNum" id="phoneNum" value="${userVO.phoneNum}"/><br/><br/>
+			<form:errors path="phonNum"/>
 			<div class="pageList">주소</div> <input type="text" name="addr" id="addr" value="${userVO.addr}"/><br/>
+			<form:errors path="addr"/>
 			<input type="button" id="signupBtn" value="가입하기" style="fond-size:20pt; width:200px;">
 			
 			</form:form>

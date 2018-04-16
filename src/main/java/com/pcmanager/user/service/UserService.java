@@ -5,12 +5,12 @@ import java.util.List;
 import com.pcmanager.user.vo.UserVO;
 
 public interface UserService {
-	public List<UserVO> selectAll();
+	public List<UserVO> readAll();
 	public boolean createUser(UserVO userVO);
 	public int removeData(int id);
-	public UserVO selectUser(UserVO userVO, String mode);
+	public UserVO readUser(UserVO userVO, String mode);
 	public boolean updateData(UserVO userVO);
-	public String selectSalt(String email);
-	public boolean selectCountUserEmail(String userEmail);
-	public boolean selectCountUserNickname(String userNickname);
+	public String readSalt(String email);
+	public boolean readCountUserEmail(String userEmail);
+	public boolean readCountUserNickname(String userNickname);
 }

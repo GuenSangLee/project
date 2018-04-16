@@ -43,7 +43,9 @@
 					<form:form modelAttribute="userForm">
 						<div style=" display:inline-block;">
 							<div><input type="text" id="email" name="email" placeholder="아이디" style="width:130px;"/> </div>
+							<form:errors path="email"/>
 							<div><input type="password" id="password" name="password" placeholder="비밀번호" style="width:130px;"/> </div>
+							<form:errors path="password"/>
 						</div> 
 						<input class="button" type="button" id="sign_in" value="로그인" style="display:inline-block; width: 50px; height: 30px;" />
 						<a href="<c:url value="/signup"/>">

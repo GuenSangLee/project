@@ -44,7 +44,7 @@ public class UserController {
 		Double	latitude = Double.parseDouble(userVO.getLatitude());
 		Double	longitude = Double.parseDouble(userVO.getLongitude());
 		
-		UserVO userCheck = userService.selectUser(userVO, "signIn");
+		UserVO userCheck = userService.readUser(userVO, "signIn");
 		if(userCheck == null) {
 			System.out.println("아이디체크 실패");
 			return new ModelAndView("redirect:/");
@@ -85,13 +85,12 @@ public class UserController {
 		
 		return "main/index";
 	}
-	
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public ModelAndView viewModifyPage( HttpSession session) {
 		System.out.println("get실행");
 		
 		UserVO user= (UserVO) session.getAttribute(Member.USER);
-		UserVO checkUser= userService.selectUser(user, "modify");
+		UserVO checkUser= userService.readUser(user, "modify");
 		
 		if( checkUser == null ){
 			return new ModelAndView("error/404");
@@ -112,7 +111,7 @@ public class UserController {
 		
 		System.out.println(changeVO.getPassword() +" !!!!!!!!!!!!!!!!!");
 		
-		UserVO originalVO= userService.selectUser(changeVO,"modify");
+		UserVO originalVO= userService.readUser(changeVO,"modify");
 		System.out.println(originalVO.getEmail());
 		
 		if(changeVO.getId() != originalVO.getId()) {
@@ -177,7 +176,7 @@ public class UserController {
 			response.put("isEmail", true);
 			return response;
 		}
-		boolean isExists= userService.selectCountUserEmail(email);
+		boolean isExists= userService.readCountUserEmail(email);
 		response.put("isEmail", isExists);
 		
 		System.out.println("이메일 체크..."+ isExists);
@@ -187,7 +186,7 @@ public class UserController {
 	@RequestMapping("/api/exists/nickname")
 	@ResponseBody
 	public Map<String, Boolean> apiIsExistsNickname(@RequestParam String nickname){
-		boolean isExists= userService.selectCountUserNickname(nickname);
+		boolean isExists= userService.readCountUserNickname(nickname);
 		Map<String, Boolean> response= new HashMap<String, Boolean>();
 		response.put("isNickname", isExists);
 		
