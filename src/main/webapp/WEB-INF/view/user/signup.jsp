@@ -167,7 +167,7 @@
 </script>
 </head>
 <body>
-	<div id="body" style="">
+	<div id="body22" style="width:800px; ">
 		<div id="pageTitle" style="padding:3px; font-size:25px; font-color:#000000; bgcolor:#9bbb59; border: 1px solid; width:600px; margin:0 auto;">회원가입</div>
 		<div style="margin-top: 10px; width:600px; margin:0 auto;">
 			<form:form modelAttribute="writeForm" >

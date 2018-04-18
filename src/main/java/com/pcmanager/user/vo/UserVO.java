@@ -2,6 +2,8 @@ package com.pcmanager.user.vo;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.pcmanager.util.GpsToAddress;
+
 public class UserVO {
 	
 	private int id;
@@ -17,6 +19,15 @@ public class UserVO {
 	private String addr;
 	private String salt;
 	private String mapAddr;
+	private String lastLoginLocation;
+	
+	
+	public String getLastLoginLocation() {
+		return lastLoginLocation;
+	}
+	public void setLastLoginLocation(String lastLoginLocation) {
+		this.lastLoginLocation = lastLoginLocation;
+	}
 	private String latitude;
 	private String longitude;
 	
@@ -75,17 +86,11 @@ public class UserVO {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	/**
-	 * @return the mapAddr
-	 */
 	public String getMapAddr() {
 		return mapAddr;
 	}
-	/**
-	 * @param mapAddr the mapAddr to set
-	 */
-	public void setMapAddr(String mapAddr) {
-		this.mapAddr = mapAddr;
+	public void setMapAddr(String gpsToAddress) {
+		this.mapAddr = gpsToAddress;
 	}
 
 

@@ -3,6 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserDao">
+	<insert id="insertLoginLocation" parameterType="UserVO">
+		INSERT	INTO	LOGIN_LOCATION(
+							LOGIN_LOCATION_ID
+							,USER_ID
+							,LOCATION
+							,WRITE_DATE
+						)
+						VALUES(
+							LOGIN_LOCATION_SEQ.NEXTVAL
+							,#{id}
+							,#{mapAddr}
+							,SYSDATE
+						)
+	</insert>
 	
 	<insert id="insertUser" parameterType="UserVO">
 		INSERT	INTO MEMBER (
@@ -24,6 +38,17 @@
 			, #{salt}
 		)
 	</insert>
+	
+	<select id="selectLastLoginLocation" parameterType="_int" resultType="string">
+		SELECT	LOCATION
+		FROM (
+				SELECT	/*+ index_desc(LOGIN_LOCATION TABLE1_PK) */ LOGIN_LOCATION_ID
+				,LOCATION
+				FROM	LOGIN_LOCATION
+				WHERE	USER_ID = #{userId}
+		)
+		WHERE ROWNUM = 1
+	</select>
 	
 	<select id="selectOne" parameterType="UserVO" resultType="UserVO">
 		SELECT	M.ID

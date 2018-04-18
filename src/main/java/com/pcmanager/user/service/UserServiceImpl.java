@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int removeData(int id) {
+	public int deleteData(int id) {
 		return userDao.removeData(id);
 	}	
 			
@@ -78,6 +78,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean readCountUserNickname(String userNickname) {
 		return userDao.selectCountUserNickname(userNickname) > 0;
+	}
+
+	@Override
+	public boolean createLoginLocation(UserVO userVO) {
+		return userDao.insertLoginLocation(userVO) > 0;
+	}
+
+	@Override
+	public String readLastLoginLocation(int userId) {
+		String lastLoginLocation = userDao.selectLastLoginLocation(userId);
+//		if( lastLoginLocation == null || lastLoginLocation == "" ) {
+//			return "최근 접속 기록이 없습니다.";
+//		}
+		return lastLoginLocation;
 	}
 
 }

@@ -35,11 +35,7 @@ public class UserController {
 	}
 
 	
-	@RequestMapping(value="/login")
-	public String viewSign() {
-		
-		return "template/login";
-	}
+	
 	// 로그인을 했다는 상태정보를 가져와서 했다면 리스트를 보여주고 아니면 로그인페이지로 돌아간다.
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	public ModelAndView viewLoginPage(@ModelAttribute("userForm") @Valid UserVO userVO, Errors errors,
@@ -59,12 +55,24 @@ public class UserController {
 		UserVO userCheck = userService.readUser(userVO, "signIn");
 		if(userCheck == null) {
 			System.out.println("아이디체크 실패");
-		}else {
-			session.setAttribute(Member.USER, userCheck);
-			System.out.println("로그인");
-			GpsToAddress gpsToAddress = new GpsToAddress(latitude, longitude);
-			System.out.println("접속 위치: " + gpsToAddress.getAddress());
 		}
+		
+		GpsToAddress gpsToAddress = new GpsToAddress(latitude, longitude);
+		userCheck.setMapAddr(gpsToAddress.getAddress());
+		
+		String LastLoginLocation = userService.readLastLoginLocation(userCheck.getId());
+		System.out.println("쿼리문 최근 접속 장소: " + LastLoginLocation);
+		
+		userCheck.setLastLoginLocation(LastLoginLocation);
+		System.out.println("세션에 입력될 최근 접속 장소: " + userCheck.getLastLoginLocation());
+		
+		userService.createLoginLocation(userCheck);
+		
+		session.setAttribute(Member.USER, userCheck);
+		System.out.println("로그인");
+		System.out.println("접속 위치: " + userCheck.getMapAddr());
+		System.out.println("최근 접속 위치: " + userCheck.getLastLoginLocation());
+		
 		return new ModelAndView("template/login");		
 	}
 
@@ -167,7 +175,7 @@ public class UserController {
 			}
 		}
 		
-		return "redirect:/";
+		return "right/rightmain";
 		
 	}
 	
@@ -203,5 +211,32 @@ public class UserController {
 		
 		System.out.println("닉네임 체크..."+ isExists);
 		return response;
+	}
+	
+	//.load 메소드로 인한 view url
+	@RequestMapping("/logincheck")
+	public String viewLoginCheck() {
+		return "template/login";
+	}
+	
+	@RequestMapping("/addrcheck")
+	public String viewAddrCheck() {
+		return "template/addr";
+	}
+	
+	@RequestMapping(value="/login")
+	public String viewSign() {
+		return "template/login";
+	}
+	
+	public String splitFunction(String ktype){     //ktype을 받는다.
+		 
+		 
+	    String ktypeWhere = "";             //ktypeWhere는 공백상태
+	 
+	    String[] array = ktype.split(" ");     //콤마 구분자로 배열에 ktype저장
+	 
+	  
+	    return array[1] + " " +array[2];
 	}
 }

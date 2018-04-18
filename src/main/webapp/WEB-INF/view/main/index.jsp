@@ -6,93 +6,58 @@
 <html>
 <head>
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="<c:url value="/static/css/common.css"/>"/>
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/common.css"/>"/> --%>
 <script src="<c:url value="/static/js/jquery-3.3.1.min.js"/>" type="text/javascript"> </script>
 <script type="text/javascript">
-	$().ready(function(){	
-		$("#gamenews").click(function() {
-			$("#right").load("<c:url value="/gamenews/list"/>");
-		});
+	$().ready(function(){
+		
+		
 		
 	});
 </script>
+
+<style type="text/css">
+	#wrapper{
+		margin:0 auto;
+		width:1020px;
+		padding:0px;
+		margin:2px auto;
+		text-align:center;
+		border: 1px solid;
+	}
+	#header{
+		width:1018px;
+		border: 1px solid;
+	}
+	#left{
+		border-collapse: collapse;
+		display:inline;
+	}
+	#right{
+		border-collapse: collapse;
+		display: inline-block;
+		height: 700px;
+	}
+	p. div, a, li, span, td, i, u, input, textarea, b, body{
+		font-size: 12pt;
+		color: #333;
+		font-family:"맑은 고딕", "맑은고딕";
+		border-collapse: collapse;
+	}
+</style>
 </head>
 <body>
 	<div id="wrapper">
-		<jsp:include page="/WEB-INF/view/template/leftbody.jsp" />
-			
+		<div id="header">
+			<jsp:include page="/WEB-INF/view/header/headermain.jsp" />
+		</div>
+		<div id="left">
+			<jsp:include page="/WEB-INF/view/template/leftbody.jsp" />
+		</div>	
 		<div id="right" >
-			<div id="top">
-				<p> PC 타임</p>
-			</div>
-				<div  class="mainList" id="gameRank">
-					<div style="display:inline-block">게임순위</div>
-					<div style="display:inline-block">1.ㅁㄴㅇ  2.ㅇㄴㅁ  3.ㅁㄴㅇㄹ  4.ㅁㄴㅇㄹ 5.ㅁㄴㅇㄹㄷ</div>
-				</div>
-
-				<div class="mainList">
-					<div style="text-align:left">
-						<span id="gamenews" style="cursor: pointer;">
-							게임 소식
-						</a>
-					</div>
-				</div>
-
-				<div class="mainList" >
-					<table class="board">
-						<tr>
-		 					<th style="width:30px; border:1px solid;">ID</th>
-		 					<th style="width:400px; border:1px solid;">제목</th>
-		 					<th style="width:50px; border:1px solid;">조회수</th>
-		 					<th style="width:100px; border:1px solid;">작성자</th>
-		 					<th style="width:120px; border:1px solid;">작성일</th>
-		 				</tr>
-			 			
-		 				<c:forEach items="${gameNewsBoardList}" var="gameNewsBoard">
-		 					<tr>
-		 						<td style="width:30px; border:1px solid;">${gameNewsBoard.boardId}</td>
-		 						<td style="width:400px; border:1px solid;">${gameNewsBoard.title}</td>
-		 						<td style="width:50px; border:1px solid;">${gameNewsBoard.viewCount}</td>
-		 						<c:choose>
-									<c:when test="${not empty gameNewsBoard.userVO}">
-										<td style="width:100px; border:1px solid;">${gameNewsBoard.userVO.nickname}(${gameNewsBoard.userVO.email})</td>
-									</c:when>
-									<c:otherwise>
-										<td style="width:100px; border:1px solid;">탈퇴한 회원</td>
-									</c:otherwise>
-								</c:choose>
-		 						<td style="width:150px; border:1px solid;">${gameNewsBoard.writeDate}</td>
-		 					</tr>
-		 				</c:forEach>
-			 		</table>
-
-				<div id="gameRank"style= "margin: 5px auto; width:700px; height:30px; border: 1px solid; background-color:#fefefe;">
-					<div style="text-align:left">PC방 리뷰</div>
-				</div>
-
-				<div id="gameRank"style= "margin: 5px auto; width:700px; height:250px; border: 1px solid; background-color:#fefefe;">
-					<table>
-							<tr>
-		 						<th style="width:30px; border:1px solid;">ID</th>
-		 						<th style="width:400px; border:1px solid;">제목</th>
-		 						<th style="width:50px; border:1px solid;">평점</th>
-		 						<th style="width:100px; border:1px solid;">작성자</th>
-		 						<th style="width:120px; border:1px solid;">작성일</th>
-		 					</tr>
-			 						
-			 					<c:forEach items="${reviewBoardList}" var="reviewBoard">
-			 						<tr>
-			 							<td style="width:30px; border:1px solid;">reviewBoard.boardId</td>
-			 							<td style="width:400px; border:1px solid;">reviewBoard.title</td>
-			 							<td style="width:50px; border:1px solid;">reviewBoard.grade</td>
-			 							<td style="width:100px; border:1px solid;">reviewBoard.userNickname</td>
-			 							<td style="width:120px; border:1px solid;">reviewBoard.date</td>
-			 						</tr>
-			 					</c:forEach>
-			 			</table>
-					</div>
-				</div>
-			</div>
+			<jsp:include page="/WEB-INF/view/right/gamerank.jsp" />
+			<jsp:include page="/WEB-INF/view/right/rightmain.jsp" />
+		</div>
 	</div>
 </body>
 

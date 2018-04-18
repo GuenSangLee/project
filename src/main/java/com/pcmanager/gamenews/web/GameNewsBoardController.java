@@ -69,9 +69,42 @@ public class GameNewsBoardController {
 		gameNewsBoardVO.setUserId(user.getId());
 		
 		if( gameNewsBoardService.inputBoard(gameNewsBoardVO) ) {
-			return "redirect:/gamenews/list";
+			return "gamenews/list";
 		}
 		
-		return "/";
+		return "right/rightmain";
 	}
+	
+	@RequestMapping(value="/gamenews/setting", method= RequestMethod.GET)
+	public ModelAndView doRightTop5() {
+		ModelAndView view= new ModelAndView();
+		
+		view.setViewName("right/rightmain");
+		view.addObject("gameNewsBoardList", gameNewsBoardService.selectTop5());
+		return view;
+	}
+	
+	@RequestMapping("/load/gamenews/write")
+	public String viewGameNewsWrite(){
+		return "gamenews/write";
+	}
+	
+	@RequestMapping("/load/gamenews/list")
+	public String viewGameNewsList(){
+		return "gamenews/list";
+	}
+	
+	public String splitFunction(String ktype){     //ktype을 받는다.
+		 
+		 
+	    String ktypeWhere = "";             //ktypeWhere는 공백상태
+	 
+	    String[] array = ktype.split(" ");     //콤마 구분자로 배열에 ktype저장
+	 
+	  
+	    return array[1] + " " +array[2];
+	}
+
+
+	
 }

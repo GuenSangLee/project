@@ -49,4 +49,14 @@ public class UserDaoImplForOracle  extends SqlSessionDaoSupport implements UserD
 		return getSqlSession().selectOne("UserDao.selectCountUserNickname", userNickname);
 	}
 
+	@Override
+	public int insertLoginLocation(UserVO userVO) {
+		return getSqlSession().insert("UserDao.insertLoginLocation", userVO);
+	}
+
+	@Override
+	public String selectLastLoginLocation(int userId) {
+		return getSqlSession().selectOne("UserDao.selectLastLoginLocation", userId);
+	}
+
 }

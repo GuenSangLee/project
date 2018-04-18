@@ -10,6 +10,8 @@
 		<mvc:interceptor>
 		<mvc:mapping path="/**/write" />
 		<mvc:mapping path="/modify/**" />
+		<mvc:mapping path="/**/**/modify/**" />
+		<mvc:mapping path="/**/**/write" />
 		<bean id="loginInterceptor" class="com.pcmanager.interceptors.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
@@ -24,43 +26,8 @@
 		<property name="prefix" value="/WEB-INF/view/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
 	
-	<bean id="userController"
-		class="com.pcmanager.user.web.UserController">
-		<property name="userService" ref="userService"></property>	
-	</bean>
-	
-	<bean id="userService"
-		class="com.pcmanager.user.service.UserServiceImpl">
-		<property name="userDao" ref="userDao" />
-	</bean>
-		
-		<bean   id="userDao"
-         	class="com.pcmanager.user.dao.UserDaoImplForOracle">
-     		 <property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
-   		</bean>
-	
-	<bean id="pcmanagerController"
-		class="com.pcmanager.PcManagerController">
-		<property name="gameNewsBoardService" ref="gameNewsBoardService"></property>
-		<property name="reviewBoardService" ref="reviewBoardService"></property>
-	</bean>
-		
-	<bean id="gameNewsBoardController"
-			class="com.pcmanager.gamenews.web.GameNewsBoardController">
-			<property name="gameNewsBoardService" ref="gameNewsBoardService"></property>
-			<property name="userService" ref="userService"/>
-		</bean>
-	
-	<bean id="gameNewsBoardService"
-		class="com.pcmanager.gamenews.service.GameNewsBoardServiceImpl">
-		<property name="gameNewsBoardDao" ref="gameNewsBoardDao" />
-	</bean>
-	
-	<bean id="gameNewsBoardDao" 
-		class="com.pcmanager.gamenews.dao.GameNewsBoardDaoImplForOracle">
-		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
-	</bean>
 	
 	<bean id="reviewBoardService"
 		class="com.pcmanager.reviewBoard.service.ReviewBoardServiceImpl">
@@ -68,4 +35,6 @@
 	</bean>
 		
 	<bean id="reviewBoardDao" class="com.pcmanager.reviewBoard.dao.ReviewBoardDaoImpl"></bean>
+	
+	<import resource="controllerContext.xml"/>
 </beans>
