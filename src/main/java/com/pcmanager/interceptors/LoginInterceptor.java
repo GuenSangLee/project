@@ -20,7 +20,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		
 		if ( request.getSession().getAttribute(Member.USER) == null ) {
 			System.out.println("로그인이 필요한 페이지");
-			response.sendRedirect(contextPath + "/need/login");
+//			response.sendRedirect(contextPath+"/need/login");
+			response.setHeader("Refresh", "-1; URL=" + request.getContextPath() + "/need/login");
 			// return false = 로그인 x 로그인 페이지로 가라
 			return false;
 		}

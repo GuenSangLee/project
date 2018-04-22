@@ -59,15 +59,20 @@ public class UserController {
 		
 		GpsToAddress gpsToAddress = new GpsToAddress(latitude, longitude);
 		userCheck.setMapAddr(gpsToAddress.getAddress());
-		
-		String LastLoginLocation = userService.readLastLoginLocation(userCheck.getId());
-		System.out.println("쿼리문 최근 접속 장소: " + LastLoginLocation);
-		
-		userCheck.setLastLoginLocation(LastLoginLocation);
-		System.out.println("세션에 입력될 최근 접속 장소: " + userCheck.getLastLoginLocation());
-		
 		userService.createLoginLocation(userCheck);
 		
+		String LastLoginLocation = userService.readLastLoginLocation(userCheck.getId());
+		userCheck.setLastLoginLocation(LastLoginLocation);
+		userCheck.setMapAddr(splitAddr(userCheck.getMapAddr()));
+		
+		
+		
+		if(userCheck.getLastLoginLocation() != null) {
+			System.out.println(userCheck.getLastLoginLocation()+"!!!!!!!!!");
+			userCheck.setLastLoginLocation(splitAddr(userCheck.getLastLoginLocation()));
+		}else {
+			userCheck.setLastLoginLocation("접속 기록이 없습니다.");
+		}
 		session.setAttribute(Member.USER, userCheck);
 		System.out.println("로그인");
 		System.out.println("접속 위치: " + userCheck.getMapAddr());
@@ -229,14 +234,14 @@ public class UserController {
 		return "template/login";
 	}
 	
-	public String splitFunction(String ktype){     //ktype을 받는다.
+	public String splitAddr(String ktype){     
 		 
 		 
-	    String ktypeWhere = "";             //ktypeWhere는 공백상태
+	    String[] array = ktype.split(" ");     
 	 
-	    String[] array = ktype.split(" ");     //콤마 구분자로 배열에 ktype저장
-	 
-	  
+	    if(array.length > 3) {
+	    	return array[2] + " " +array[3];
+	    }
 	    return array[1] + " " +array[2];
 	}
 }

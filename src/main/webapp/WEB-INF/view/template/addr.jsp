@@ -22,14 +22,15 @@
 </script>
 <style type="text/css">
 	.userLocation{
+		margin-top:5px;
 		border: 1px solid;
 	}
 </style>
 	<div id="loginLocation">
 		<div >
-			현재 접속 위치
+			현재 접속 위치<hr/>
 		</div>
-		<hr/>
+		
 		<div>
 			<c:choose>
 				<c:when test="${ empty sessionScope.__USER__}">

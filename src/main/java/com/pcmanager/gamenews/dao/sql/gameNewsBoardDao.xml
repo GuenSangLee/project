@@ -5,11 +5,11 @@
 <mapper namespace="GameNewsBoardDao">
 	<resultMap type="GameNewsBoardVO" id="GameNewsBoardVOMap">
 		<id column="GAME_NEWS_ID" property="boardId"/>
-		<result column="TITLE" property="title"/>
-		<result column="BODY" property="body"/>
-		<result column="WRITE_DATE" property="writeDate"/>
-		<result column="VIEW_COUNT" property="viewCount"/>
-		<result column="USER_ID" property="userId"/>
+		<result column="G_TITLE" property="title"/>
+		<result column="G_BODY" property="body"/>
+		<result column="G_WRITE_DATE" property="writeDate"/>
+		<result column="G_VIEW_COUNT" property="viewCount"/>
+		<result column="G_USER_ID" property="userId"/>
 		<association property="userVO" javaType="UserVO">
 			<id column="M_ID" property="id"/>
 			<result column="EMAIL" property="email"/>
@@ -23,19 +23,26 @@
 		SELECT	ROWNUM
 				,G.*
 		FROM (
-				SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ GAME_NEWS_ID
-						,G.USER_ID userId
-						,G.TITLE title
-						,G.VIEW_COUNT viewCount
-						,TO_CHAR(G.WRITE_DATE, 'YYYY-MM-DD') WRITE_DATE
+				SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ G.GAME_NEWS_ID
+						,G.USER_ID G_USER_ID
+						,G.TITLE G_TITLE
+						,G.VIEW_COUNT G_VIEW_COUNT
+						,(CASE
+								WHEN G.WRITE_DATE > SYSDATE - 1 
+     									THEN SUBSTR(TO_CHAR(G.WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 12, 5)
+             					WHEN G.WRITE_DATE > ADD_MONTHS(SYSDATE, -1) 
+                 				THEN SUBSTR(TO_CHAR(G.WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 6, 5)
+            					ELSE 
+       							 	SUBSTR(TO_CHAR(G.WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 1, 10)
+							END) G_WRITE_DATE
 						,G.BODY body
-						,M.ID M_ID
+						,M.MEMBER_ID M_ID
 						,M.ADDR addr
 						,M.NICKNAME nickname
 						,M.PHONE_NUM PHONE_NUM
 				FROM	GAME_NEWS_BOARD G
 						,MEMBER M
-				WHERE	G.USER_ID = M.ID(+)
+				WHERE	G.USER_ID = M.MEMBER_ID(+)
 	         )G
 	    WHERE ROWNUM <![CDATA[<=]]> 5
 	</select>
@@ -64,7 +71,7 @@
 		SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ COUNT(G.GAME_NEWS_ID)
 		FROM	GAME_NEWS_BOARD G,
 				MEMBER M
-		WHERE	G.USER_ID = M.ID(+)
+		WHERE	G.USER_ID = M.MEMBER_ID(+)
 		<choose>
 			<when test="searchType == 1">
 		AND		G.TITLE LIKE '%'||#{searchKeyword} ||'%'
@@ -82,7 +89,6 @@
 			<when test="searchType == 5">
 		AND		G.EMAIL LIKE '%'||#{searchKeyword} ||'%'
 			</when>
-		
 		</choose>
 	</select>
 	
@@ -93,19 +99,26 @@
 					SELECT	ROWNUM RNUM
 							, G.*
 					FROM	(
-								SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ GAME_NEWS_ID
-										,G.USER_ID userId
-										,G.TITLE title
-										,G.VIEW_COUNT viewCount
-										,TO_CHAR(G.WRITE_DATE, 'YYYY-MM-DD') WRITE_DATE
-										,G.BODY body
-										,M.ID M_ID
+								SELECT	/*+ index(G GAME_NEWS_BOARD_PK) */ G.GAME_NEWS_ID
+										,G.USER_ID G_USER_ID
+										,G.TITLE G_TITLE
+										,G.VIEW_COUNT G_VIEW_COUNT
+										,(CASE
+               									WHEN G.WRITE_DATE > SYSDATE - 1 
+                   									THEN SUBSTR(TO_CHAR(G.WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 12, 5)
+							                    WHEN G.WRITE_DATE > ADD_MONTHS(SYSDATE, -1) 
+							                        THEN SUBSTR(TO_CHAR(G.WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 6, 5)
+							                   	ELSE 
+                     							 	SUBSTR(TO_CHAR(G.WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 1, 10)
+                     						END) G_WRITE_DATE
+										,G.BODY G_BODY
+										,M.MEMBER_ID M_ID
 										,M.ADDR addr
 										,M.NICKNAME nickname
 										,M.PHONE_NUM PHONE_NUM
 								FROM	GAME_NEWS_BOARD G,
 										MEMBER M
-								WHERE	G.USER_ID = M.ID(+)
+								WHERE	G.USER_ID = M.MEMBER_ID(+)
 								<choose>
 										<when test="searchType == 1">
 								AND		G.TITLE LIKE '%'||#{searchKeyword} ||'%'
@@ -130,5 +143,36 @@
 				)
 		WHERE	RNUM >= #{startNumber}
 	</select>
+	
+	<select id="selectOne" resultType="GameNewsBoardVO" parameterType="_int">
+		SELECT	GAME_NEWS_ID boardId
+				,TITLE
+				,BODY
+				,(CASE
+               		WHEN WRITE_DATE > SYSDATE - 1 
+                   		THEN SUBSTR(TO_CHAR(WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 12, 5)
+					WHEN WRITE_DATE > ADD_MONTHS(SYSDATE, -1) 
+						THEN SUBSTR(TO_CHAR(WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 6, 5)
+					ELSE 
+                     	SUBSTR(TO_CHAR(WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 1, 10)
+                    END) writeDate
+				,VIEW_COUNT	viewCount
+				,USER_ID	userId
+				,RECOMMEND_COUNT recommendCount
+		FROM	GAME_NEWS_BOARD
+		WHERE	GAME_NEWS_ID = #{id}
+	</select>
+	
+	<update id="incrementViewCount" parameterType="_int">
+		UPDATE	GAME_NEWS_BOARD
+		SET		VIEW_COUNT= VIEW_COUNT +1
+		WHERE GAME_NEWS_ID = #{id}
+	</update>
+	
+	<update id="incrementRecommendCount" parameterType="_int">
+		UPDATE	GAME_NEWS_BOARD
+		SET		RECOMMEND_COUNT= RECOMMEND_COUNT +1
+		WHERE GAME_NEWS_ID = #{id}
+	</update>
 
 </mapper>

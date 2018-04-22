@@ -1,5 +1,8 @@
 package com.pcmanager.gamenews.vo;
 
+import java.util.List;
+
+import com.pcmanager.reply.vo.ReplyVO;
 import com.pcmanager.user.vo.UserVO;
 
 public class GameNewsBoardVO {
@@ -12,6 +15,8 @@ public class GameNewsBoardVO {
 	public void setUserVO(UserVO userVO) {
 		this.userVO = userVO;
 	}
+	
+	
 
 	private int boardId;
 	private int userId;
@@ -19,6 +24,7 @@ public class GameNewsBoardVO {
 	private String body;
 	private int viewCount;
 	private String writeDate;
+	private List<ReplyVO> replyVO;
 	
 
 	public String getWriteDate() {
@@ -67,6 +73,20 @@ public class GameNewsBoardVO {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	/**
+	 * @return the replyVO
+	 */
+	public List<ReplyVO> getReplyVO() {
+		return replyVO;
+	}
+
+	/**
+	 * @param replyVO the replyVO to set
+	 */
+	public void setReplyVO(List<ReplyVO> replyVO) {
+		this.replyVO = replyVO;
 	}
 
 }

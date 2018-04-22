@@ -13,6 +13,7 @@
 		<config>src/main/webapp/WEB-INF/spring/gameRankContext.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/gameNewsBoardContext.xml</config>
 		<config>src/main/webapp/WEB-INF/spring/userContext.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/replyContext.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

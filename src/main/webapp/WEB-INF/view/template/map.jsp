@@ -31,8 +31,8 @@
 	 
 	         
 	  navigator.geolocation.getCurrentPosition(function(position){
-		 /*  pyrmont = {lat: position.coords.latitude, lng: position.coords.longitude}; */
-		   pyrmont = {lat: 37.615258, lng:  126.715688}; 
+		  pyrmont = {lat: position.coords.latitude, lng: position.coords.longitude}; 
+		  //  pyrmont = {lat: 37.615258, lng:  126.715688};  
 		  
 		 console.log(position);
 	  		var latlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);

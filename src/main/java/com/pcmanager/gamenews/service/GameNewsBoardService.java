@@ -16,9 +16,9 @@ public interface GameNewsBoardService {
 
 	public boolean removeBoard(int boardId);
 
-	public List<GameNewsBoardVO> selectAll();
+	public List<GameNewsBoardVO> readAll();
 
-	public GameNewsBoardVO selectOne(int id);
+	public GameNewsBoardVO readOne(int id);
 
 	public List<GameNewsBoardVO> search(int type, String condition);
 

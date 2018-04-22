@@ -43,7 +43,6 @@ public class PcManagerController {
 		view.setViewName("right/rightmain");
 		view.addObject("gameNewsBoardList", gameNewsBoardService.selectTop5());	
 //		view.addObject("reviewBoardService", reviewBoardService.selectAll());
-		
 		return view;
 	}
 	

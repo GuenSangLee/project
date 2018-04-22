@@ -9,12 +9,14 @@
 		<typeAlias type="com.pcmanager.gamenews.vo.GameNewsBoardSearchVO" alias="GameNewsBoardSearchVO"/>
 		<typeAlias type="com.pcmanager.gamenews.vo.GameNewsBoardVO" alias="GameNewsBoardVO"/>
 		<typeAlias type="com.pcmanager.gamerank.vo.GameRankVO" alias="GameRankVO"/>
+		<typeAlias type="com.pcmanager.reply.vo.ReplyVO" alias="ReplyVO"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="/com/pcmanager/user/dao/sql/userDao.xml" />
 		<mapper resource="/com/pcmanager/gamenews/dao/sql/gameNewsBoardDao.xml"/>
 		<mapper resource="/com/pcmanager/gamerank/dao/sql/gameRankDao.xml"/>
+		<mapper resource="/com/pcmanager/reply/dao/sql/replyDao.xml"/>
 	</mappers>
 	
 </configuration>  

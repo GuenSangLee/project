@@ -20,7 +20,7 @@
 	
 	<insert id="insertUser" parameterType="UserVO">
 		INSERT	INTO MEMBER (
-			ID
+			MEMBER_ID
 			, EMAIL
 			, PASSWORD
 			, NICKNAME
@@ -40,18 +40,19 @@
 	</insert>
 	
 	<select id="selectLastLoginLocation" parameterType="_int" resultType="string">
-		SELECT	LOCATION
+		SELECT	A.LOCATION
 		FROM (
 				SELECT	/*+ index_desc(LOGIN_LOCATION TABLE1_PK) */ LOGIN_LOCATION_ID
 				,LOCATION
+                ,ROWNUM AS RNUM
 				FROM	LOGIN_LOCATION
-				WHERE	USER_ID = #{userId}
-		)
-		WHERE ROWNUM = 1
+				WHERE	USER_ID = 142
+		)A
+		WHERE A.RNUM= 2
 	</select>
 	
 	<select id="selectOne" parameterType="UserVO" resultType="UserVO">
-		SELECT	M.ID
+		SELECT	M.MEMBER_ID id
 				,M.PASSWORD
        			,M.EMAIL
        			,M.ADDR
@@ -81,7 +82,7 @@
 				<if test= "addr != null and addr != ''">
 				,ADDR= #{addr}
 				</if>
-		WHERE	ID= #{id}
+		WHERE	MEMBER_ID= #{id}
 	</update>
 	
 	<select id="selectSalt" parameterType="string" resultType="string">

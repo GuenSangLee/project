@@ -8,15 +8,13 @@
 	<mvc:annotation-driven/>
 	<mvc:interceptors>
 		<mvc:interceptor>
-		<mvc:mapping path="/**/write" />
-		<mvc:mapping path="/modify/**" />
-		<mvc:mapping path="/**/**/modify/**" />
-		<mvc:mapping path="/**/**/write" />
-		<bean id="loginInterceptor" class="com.pcmanager.interceptors.LoginInterceptor" />
+			<mvc:mapping path="/**/write" />
+			<mvc:mapping path="/modify/**" />
+			<mvc:mapping path="/**/**/modify/**" />
+			<mvc:mapping path="/**/**/write" />
+			<bean id="loginInterceptor" class="com.pcmanager.interceptors.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-	
-	
 	
 	<mvc:resources location="/WEB-INF/static/" mapping="/static/**"/>
 	

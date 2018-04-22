@@ -20,6 +20,11 @@ public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 	
 	@Override
 	public boolean inputBoard(GameNewsBoardVO gameNewsBoardVO) {
+		String body = gameNewsBoardVO.getBody();
+		// \n -> <br/>
+		body = body.replace("\n", "<br/>");
+		gameNewsBoardVO.setBody(body);
+		
 		return gameNewsBoardDao.intsertGameNews(gameNewsBoardVO) >0;
 	}
 
@@ -34,12 +39,12 @@ public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 	}
 
 	@Override
-	public List<GameNewsBoardVO> selectAll() {
+	public List<GameNewsBoardVO> readAll() {
 		return gameNewsBoardDao.selectAll();
 	}
 
 	@Override
-	public GameNewsBoardVO selectOne(int id) {
+	public GameNewsBoardVO readOne(int id) {
 		return gameNewsBoardDao.selectOne(id);
 	}
 

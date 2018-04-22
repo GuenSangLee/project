@@ -4,69 +4,118 @@
 <script type="text/javascript">
 	$().ready(function(){
 		
-		$("#gamenews").click(function() {
+		$("#gameNewsList").click(function() {
 			$("#rightBody").load("<c:url value="/gamenews/list"/>");
+		});
+		
+		$(".gameNewsView").click(function(e){
+			var dataId= parseInt(e.target.getAttribute('data-id'));
+			$("#rightBody").load('<c:url value="/gamenews/view"/>/'+dataId);
 		});
 		
 	});
 </script>
 <style type="text/css">
-	table.board{
-		border-collapse: collapse;
+	.ellips{
+		display: inline-block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis; 
 	}
-	table.board > tbody td{
-		border:1px solid;
+	.boardName{
+		height:40px;
+		font-size:12pt;
 	}
-	table.board > .title{
+	.boardId{
+		width:30px;
+		font-size:12pt;
+	}
+	.boardTitle{
+		width: 400px;
+		margin: 0px auto;
+		text-decoration:none;
+ 		cursor: pointer;
+ 		font-size:12pt;
+	}
+	.boardBody{
+		width: 600px;
+		text-align:left;
+		border:1px solid gray;
 		
 	}
-	.ellips{
-	display: inline-block;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis; 
+	.boardViewCount{
+		width:50px;
+		font-size:12pt;
 	}
+	.boardNickname{
+		width:80px;
+		font-size:12pt;
+	}
+	.boardDate{
+		width:130px;
+		font-size:12pt;
+	}
+	table.gameNews{
+		border-collapse: collapse;
+	}
+	table.gameNews > thead th {
+		border-bottom: 1px solid black;
+		background-color:#d9d9d9;
+	}
+	table.gameNews > tbody tr{
+		border-bottom: 1px solid black;
+		background-color:#e9f6fc;
+	}
+	.boardTitle div:hover {
+		color:black;
+		cursor: pointer;
+	}
+	table.gameNews > tbody tr:FIRST  {
+		background-color:#d9d9d9;
+	}
+	
 </style>
 		<div id="rightBody" >
-			<span id="gamenews" style="cursor: pointer;">
+		<div id="setting"style="border:1px solid black;">
+			<span class="boardName" id="gameNewsList">
 				게임 소식
 			</span>
-			<div class="mainList" >
-				<table class="board">
-					<tr>
-	 					<th style="width:30px; border:1px solid;">ID</th>
-						<th style="width:400px; border:1px solid;">제목</th>
-						<th style="width:50px; border:1px solid;">조회수</th>
-						<th style="width:100px; border:1px solid;">작성자</th>
-						<th style="width:120px; border:1px solid;">작성일</th>
+			<div style="width:700px; height:5px; background-color:#000000;" ></div>
+				<table class="gameNews">
+					<tr style="margin: 0px 0px 3px 0px; background-color:#d9d9d9;">
+	 					<th class="boardId">ID</th>
+						<th class="boardTitle">제목</th>
+						<th class="boardViewCount">조회수</th>
+						<th class="boardNickname">작성자</th>
+						<th class="boardDate">작성일</th>
 					</tr>
 	 			
 					<c:forEach items="${gameNewsBoardList}" var="gameNewsBoard">
 						<tr>
-							<td style="width:30px;">${gameNewsBoard.boardId}</td>
+							<td class="ellips boardId">${gameNewsBoard.boardId}</td>
 							<td >
-								<div class="ellips" style="width:400px;">
+								<div class="ellips boardTitle gameNewsView" data-id="${gameNewsBoard.boardId}">
 									${gameNewsBoard.title}
 								</div>
 							</td>
 							<td>
-								<div class="ellips" style="width:50px;">
+								<div class="ellips">
 									${gameNewsBoard.viewCount}
 								</div>
 							</td>
 							<c:choose>
 								<c:when test="${not empty gameNewsBoard.userVO}">
 									<td>
-										<div class="ellips" style="width:100px;">
+										<div class="ellips boardNickname">
 											${gameNewsBoard.userVO.nickname}
 										</div>
 									</td>
 								</c:when>
 								<c:otherwise>
-									<td style="width:100px; border:1px solid;">탈퇴한 회원</td>
+									<td class="ellips boardNickname">탈퇴한 회원</td>
 								</c:otherwise>
 							</c:choose>
-							<td style="width:150px; border:1px solid;">${gameNewsBoard.writeDate}</td>
+							<td class="boardDate">${gameNewsBoard.writeDate}</td>
 						</tr>
 					</c:forEach>
 	 			</table>
@@ -96,5 +145,5 @@
 	 					</c:forEach>
 	 				 </table>
 				</div>
-			</div>
 		</div>
+	</div>

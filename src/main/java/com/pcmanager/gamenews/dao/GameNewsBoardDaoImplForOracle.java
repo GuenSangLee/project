@@ -34,8 +34,7 @@ public class GameNewsBoardDaoImplForOracle extends SqlSessionDaoSupport implemen
 
 	@Override
 	public GameNewsBoardVO selectOne(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return getSqlSession().selectOne("GameNewsBoardDao.selectOne", id);
 	}
 
 	@Override

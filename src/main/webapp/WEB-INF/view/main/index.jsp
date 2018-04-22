@@ -19,14 +19,10 @@
 <style type="text/css">
 	#wrapper{
 		margin:0 auto;
-		width:1020px;
+		width:1026px;
 		padding:0px;
 		margin:2px auto;
 		text-align:center;
-		border: 1px solid;
-	}
-	#header{
-		width:1018px;
 		border: 1px solid;
 	}
 	#left{
@@ -37,25 +33,25 @@
 		border-collapse: collapse;
 		display: inline-block;
 		height: 700px;
+		margin:0px auto;
 	}
 	p. div, a, li, span, td, i, u, input, textarea, b, body{
 		font-size: 12pt;
 		color: #333;
 		font-family:"맑은 고딕", "맑은고딕";
 		border-collapse: collapse;
+		margin:0px;
 	}
 </style>
 </head>
-<body>
+<body style="margin:0px;">
+	<jsp:include page="/WEB-INF/view/header/headermain.jsp" />
 	<div id="wrapper">
-		<div id="header">
-			<jsp:include page="/WEB-INF/view/header/headermain.jsp" />
-		</div>
 		<div id="left">
 			<jsp:include page="/WEB-INF/view/template/leftbody.jsp" />
 		</div>	
 		<div id="right" >
-			<jsp:include page="/WEB-INF/view/right/gamerank.jsp" />
+			
 			<jsp:include page="/WEB-INF/view/right/rightmain.jsp" />
 		</div>
 	</div>
