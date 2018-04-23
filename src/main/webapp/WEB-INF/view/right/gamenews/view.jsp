@@ -5,8 +5,6 @@
 <script src="<c:url value="/static/js/jquery-3.3.1.min.js"/>" type="text/javascript"></script>
 <script type="text/javascript">
 	$().ready(function(){
-		var reReplyForm=
-		
 		
 		loadReplies(0);
 		
@@ -26,9 +24,22 @@
 		
 		
 		$("#modifyBtn").click(function(){
-			$("#rightBody").load("<c:url value="/gamenews/modify"/>");
-					
+			if(!"${sessionScope.__USER__}"){
+				alert("로그인이 필요합니다.");
+				return false;
+			}
+			var userId = "${sessionScope.__USER__.id}";
+			var boardUserId = "${gameNewsBoard.userId}";
+			
+			alert(userId);
+			alert(boardUserId);
+			
+			if(userId == boardUserId){
+				$("#rightBody").load("<c:url value="/gamenews/modify"/>/"+boardUserId);
+			}
+
 		});
+		
 		$("#listBtn").click(function(){
 			$("#rightBody").load("<c:url value="/gamenews/list"/>");
 			
@@ -53,7 +64,8 @@
 				alert("로그인이 필요합니다.");
 				return false;
 			}
-			if("${sessionScope.__USER__.id} eq e.target.getAttribute('data-userId')"){
+			var user = "${sessionScope.__USER__.id}";
+			if(user == e.target.getAttribute('data-userId')){
 				$.post('<c:url value="/api/delreply"/>/'+e.target.getAttribute('data-id')
 						,$("#writeReplyForm").serialize()
 						,function(response){
@@ -61,7 +73,10 @@
 							var scrollTop= $(window).scrollTop();
 							loadReplies(scrollTop);
 				});
+			}else{
+				alert("작성자가 아닙니다.");
 			}
+				
 		});
 		
 		$("#writeReReplyBtn").click(function(){
@@ -74,7 +89,6 @@
 				function(response) {
 				
 					if( response.status) {
-						//appendReplies(response.reply);
 						
 						var scrollTop= $(window).scrollTop();
 						$("#createReply").appendTo("#createReplyDiv");
@@ -126,8 +140,8 @@
 		function appendReplies(reply){
 			
 			var checkLevel = ((reply.level-1) >= 1)? true : false;
-			if(checkLevel === true){
-				var replyDiv= $('<div class="replyMain" style="background-color:#ececec;"><div class="replyNickname" style=" padding-left:'+((reply.level-1)*20)+'px;">└'+reply.userVO.nickname+'</div>');
+			if(checkLevel){
+				var replyDiv= $('<div class="replyMain" style="background-color:#bfbfbf;"><div class="replyNickname" style=" padding-left:'+((reply.level-1)*20)+'px;">└'+reply.userVO.nickname+'</div>');
 			}else{
 				var reReplyBtn= $('<div class="replyReBtn"><input type="button" data-id="'+reply.id+'" value="답글" class="showReReplyBtn"/></div>');
 				var replyDiv= $('<div class="replyMain"><div class="replyNickname" style=" padding-left:'+((reply.level-1)*20)+'px;">'+reply.userVO.nickname+'</div>');
@@ -159,6 +173,7 @@
 	@media(min-height:500px){
 		#boardBody{
 			height:500px;
+			margin: auto;
 		}
 	}
 	.replyMain{
@@ -214,8 +229,6 @@
 	}
 	#boardTitle{
 		width: 500px;
-		margin: 0px auto;
-		text-align: left;
 	}
 	#boardBody{
 		width: 600px;
@@ -233,10 +246,10 @@
 </style>
 <div id="boardName">
 	<div class="inline">게임 뉴스(글읽기)</div>
-	<div class="inline" style="float:right; font-size:10pt;">작성일: ${gameNewsBoard.writeDate}</div>
+	<div class="inline" style="float:right; font-size:10pt;">조회수: ${gameNewsBoard.viewCount} 	작성일: ${gameNewsBoard.writeDate}</div>
 </div>
 <div style="text-align: center; width:700px; margin:0px auto;">
-	<div id="boardTitle">
+	<div id="boardTitle" class="inline" style="vertical-align:left" >
 		<div class="inline" style="board-right:1px solid gray;">제목</div>
 		<div class="inline" id="writeTitle">${gameNewsBoard.title}</div>
 	</div>
@@ -271,7 +284,6 @@
 						<input type="text" readonly="readonly" size="60" placeholder="로그인이 필요한 서비스입니다." />
 					</c:if>
 					<div class="inline"><input type="button" id="writeReplyBtn" value="등록"/></div>
-					<div class="inline" style="font-size:9pt;">${gameNewsBoard.writeDate}</div>
 					<div style="font-size:9pt; margin-left:26px;">[공지사항] 악성 댓글 혹은 분란을 야기하는 댓글은 삭제될 수 있습니다.</div>
 				</div>
 			</form>

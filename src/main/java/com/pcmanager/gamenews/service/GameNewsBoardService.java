@@ -23,4 +23,6 @@ public interface GameNewsBoardService {
 	public List<GameNewsBoardVO> search(int type, String condition);
 
 	public List<GameNewsBoardVO> selectTop5();
+	
+	public boolean upViewCount(int id);
 }

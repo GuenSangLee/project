@@ -8,8 +8,10 @@
 </script>
 
 <script type="text/javascript">
-	$().ready(
-			function() {
+	$().ready(function() {
+		if("$(sessionScope.__MODE__)"){
+			$("rightTitle").text("게임 소식(글 수정)")
+		}
 				$("#writeBtn").click(function() {
 							$.post("<c:url value="/gamenews/write"/>"
 									,$("#writeForm").serialize()
@@ -29,9 +31,7 @@
 				});
 			});
 </script>
-<div class="mainList">
-	<div style="text-align: center">게임 소식(글쓰기)</div>
-</div>
+	<div style="text-align: center" id="rightTitle">게임 소식(글쓰기)</div>
 <form:form modelAttribute="writeForm">
 	<div style="text-align: center">
 		제목 : <input style="width: 500px;" type="text" id="title" name="title"

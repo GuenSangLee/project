@@ -21,7 +21,6 @@ public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 	@Override
 	public boolean inputBoard(GameNewsBoardVO gameNewsBoardVO) {
 		String body = gameNewsBoardVO.getBody();
-		// \n -> <br/>
 		body = body.replace("\n", "<br/>");
 		gameNewsBoardVO.setBody(body);
 		
@@ -71,6 +70,11 @@ public class GameNewsBoardServiceImpl implements GameNewsBoardService {
 		
 		
 		return pageExplorer;
+	}
+
+	@Override
+	public boolean upViewCount(int id) {
+		return gameNewsBoardDao.incrementViewCount(id) > 0;
 	}
 
 

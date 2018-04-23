@@ -92,14 +92,14 @@
 	</select>
 	
 	<select id="selectCountUserEmail" parameterType="string" resultType="_int">
-		SELECT	COUNT(ID)
+		SELECT	COUNT(MEMBER_ID)
 		FROM	MEMBER
 		WHERE	EMAIL= #{email}
 	
 	</select>
 	
 	<select id="selectCountUserNickname" parameterType="string" resultType="_int">
-		SELECT	COUNT(ID)
+		SELECT	COUNT(MEMBER_ID)
 		FROM	MEMBER
 		WHERE	NICKNAME= #{nickname}
 	</select>

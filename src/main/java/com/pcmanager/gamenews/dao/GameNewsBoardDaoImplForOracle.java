@@ -17,8 +17,7 @@ public class GameNewsBoardDaoImplForOracle extends SqlSessionDaoSupport implemen
 
 	@Override
 	public int updateGameNews(GameNewsBoardVO gameNewsBoardVO) {
-		// TODO Auto-generated method stub
-		return 0;
+		return getSqlSession().update("GameNewsBoardDao.updateGameNews", gameNewsBoardVO);
 	}
 
 	@Override
@@ -56,6 +55,11 @@ public class GameNewsBoardDaoImplForOracle extends SqlSessionDaoSupport implemen
 	@Override
 	public List<GameNewsBoardVO> selectAll(GameNewsBoardSearchVO gameNewsBoardSearchVO) {
 		return getSqlSession().selectList("GameNewsBoardDao.selectAll", gameNewsBoardSearchVO );
+	}
+
+	@Override
+	public int incrementViewCount(int id) {
+		return getSqlSession().update("GameNewsBoardDao.incrementViewCount", id);
 	}
 
 }

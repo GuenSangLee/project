@@ -1,15 +1,17 @@
 package com.pcmanager.gamenews.web;
 
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.pcmanager.gamenews.service.GameNewsBoardService;
 import com.pcmanager.gamenews.vo.GameNewsBoardSearchVO;
 import com.pcmanager.gamenews.vo.GameNewsBoardVO;
@@ -98,6 +100,9 @@ public class GameNewsBoardController {
 	public ModelAndView doGameNewsView(@PathVariable int id) {
 		ModelAndView view = new ModelAndView();
 		
+		if(!incrementViewCount(id)) {
+			return new ModelAndView("error/500");
+		}
 		GameNewsBoardVO gameNewsBoard= gameNewsBoardService.readOne(id);
 		
 		view.setViewName("right/gamenews/view");
@@ -106,7 +111,66 @@ public class GameNewsBoardController {
 		
 		return view;
 	}
-	
+	@RequestMapping(value="/gamenews/modify/{id}", method=RequestMethod.GET)
+	public ModelAndView viewModifyPage(@PathVariable int id, HttpSession session) {
+		UserVO userVO= (UserVO) session.getAttribute(Member.USER);
+		GameNewsBoardVO gameNewsBoard= gameNewsBoardService.readOne(id);
+		
+		//유저가 글쓴이인지 체크.
+		int userId= userVO.getId();
+		if( userId != gameNewsBoard.getUserId() ) {
+			return new ModelAndView("error/404");
+		}
+		
+		
+		ModelAndView view= new ModelAndView();
+		view.setViewName("right/gamenews/write");
+		view.addObject("gameNewsBoard", gameNewsBoard);
+		view.addObject("mode", "modify");
+		
+		return view;
+	}
+	@RequestMapping(value="/gamenews/modify/{id}", method=RequestMethod.POST)
+	public String doModifyPage(@PathVariable int id, HttpSession session, HttpServletRequest request
+			, @ModelAttribute("writeForm") @Valid GameNewsBoardVO gameNewsBoardVO, Errors errors) {
+		
+		UserVO userVO= (UserVO) session.getAttribute(Member.USER);
+		GameNewsBoardVO originalVO= gameNewsBoardService.readOne(id);
+		
+		
+		if(userVO.getId() != originalVO.getUserId()) {
+			return "error/404";
+		}
+		
+		if( errors.hasErrors()) {
+			return "redirect:/gamenews/modify/"+id;
+		}
+		GameNewsBoardVO newGameNewsBoardVO= new GameNewsBoardVO();
+		newGameNewsBoardVO.setBoardId(originalVO.getBoardId());
+		newGameNewsBoardVO.setUserId(userVO.getId());
+		
+		boolean isModify= false;
+		
+		
+//		2. 제목 변경확인
+		if(!originalVO.getTitle().equals(newGameNewsBoardVO.getTitle())) {
+			newGameNewsBoardVO.setTitle(newGameNewsBoardVO.getTitle());
+			isModify= true;
+		}
+//		3.내용체크
+		if(!originalVO.getBody().equals(newGameNewsBoardVO.getBody())) {
+			newGameNewsBoardVO.setTitle(newGameNewsBoardVO.getBody());
+			isModify= true;
+		}
+//		변경여부 체크.
+		if(isModify) {
+			gameNewsBoardService.updateBoard(newGameNewsBoardVO);
+			return "redirect:/gamenews/view/"+ id;
+		}
+		
+		return "right/gamenews/list";
+		
+	}
 	@RequestMapping("/load/gamenews/write")
 	public String viewGameNewsWrite(){
 		return "right/gamenews/write";
@@ -115,5 +179,9 @@ public class GameNewsBoardController {
 	@RequestMapping("/load/gamenews/list")
 	public String viewGameNewsList(){
 		return "right/gamenews/list";
+	}
+	
+	private boolean incrementViewCount(int boardId) {
+		return gameNewsBoardService.upViewCount(boardId);
 	}
 }

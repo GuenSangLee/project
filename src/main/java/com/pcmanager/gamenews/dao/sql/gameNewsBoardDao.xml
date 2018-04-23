@@ -86,9 +86,6 @@
 			<when test="searchType == 4">
 		AND		G.NICKNAME LIKE '%'||#{searchKeyword} ||'%'
 			</when>
-			<when test="searchType == 5">
-		AND		G.EMAIL LIKE '%'||#{searchKeyword} ||'%'
-			</when>
 		</choose>
 	</select>
 	
@@ -133,9 +130,6 @@
 										<when test="searchType == 4">
 								AND		G.NICKNAME LIKE '%'||#{searchKeyword} ||'%'
 										</when>
-										<when test="searchType == 5">
-								AND		G.EMAIL LIKE '%'||#{searchKeyword} ||'%'
-										</when>
 								</choose>
 								ORDER	BY G.GAME_NEWS_ID DESC
 							)G
@@ -157,7 +151,7 @@
                      	SUBSTR(TO_CHAR(WRITE_DATE, 'YYYY.MM.DD HH24:MI:SS'), 1, 10)
                     END) writeDate
 				,VIEW_COUNT	viewCount
-				,USER_ID	userId
+				,USER_ID userId
 				,RECOMMEND_COUNT recommendCount
 		FROM	GAME_NEWS_BOARD
 		WHERE	GAME_NEWS_ID = #{id}
@@ -173,6 +167,19 @@
 		UPDATE	GAME_NEWS_BOARD
 		SET		RECOMMEND_COUNT= RECOMMEND_COUNT +1
 		WHERE GAME_NEWS_ID = #{id}
+	</update>
+	
+	<update id="updateGameNews" parameterType="GameNewsBoardVO">
+		UPDATE	GAME_NEWS_BOARD
+		SET		MODIFY_DATE= SYSDATE
+				<if test= "title != null and title != ''">
+				,TITLE= #{title}
+				</if>
+				<if test= "body != null and body != ''">
+				,BODY= #{body}
+				</if>
+		WHERE	GAME_NEWS_ID= #{id}
+		AND 	USER_ID= #{userId}
 	</update>
 
 </mapper>

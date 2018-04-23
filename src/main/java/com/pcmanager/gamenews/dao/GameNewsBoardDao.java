@@ -24,5 +24,7 @@ public interface GameNewsBoardDao {
 	public List<GameNewsBoardVO> search(int type, String condition);
 
 	public List<GameNewsBoardVO> selectTop5();
+	
+	public int incrementViewCount(int id);
 
 }

@@ -38,7 +38,16 @@ public class replyController {
 	@RequestMapping(value="/api/readreply", method= RequestMethod.GET)
 	@ResponseBody
 	public List<ReplyVO> readReply(ReplyVO replyVO){
-		return replyService.readAllReplies(replyVO);
+		
+		List<ReplyVO> replyList= replyService.readAllReplies(replyVO);
+		
+		for (ReplyVO reply : replyList) {
+			if(reply.getShow() > 0) {
+				reply.setBody("삭제된 댓글입니다.");
+			}
+		}
+		
+		return replyList;
 	}
 	
 	@RequestMapping(value="/api/createreply", method= RequestMethod.POST)
