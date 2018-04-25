@@ -96,7 +96,7 @@
 						
 						$("#replyWriteBody").val("");
 						//id가 replies인 것을 초기화
-						$("#replies").html("");
+						$("#replies").html("");x
 						
 						//스크롤바 좌표를 가져온다.
 						loadReplies(scrollTop);
